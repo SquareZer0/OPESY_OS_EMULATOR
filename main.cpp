@@ -1,27 +1,37 @@
 #include <algorithm>
 #include <cctype>
+#include <chrono>
 #include <iostream>
 #include <string>
+#include <thread>
 
 namespace {
 
 const char* const GREEN = "\033[32m";
 const char* const YELLOW = "\033[93m";
 const char* const RESET = "\033[0m";
+const std::chrono::milliseconds LINE_DELAY(60);
 
-void printHeader() {
-    std::cout << R"ASCII(
-                _     ___   ____
- _ __    ___   | |   / _ \ / ___|
-| '_ \  / _ \ / __) | | | |\___ \
-| |_) ||  __/ \__ \ | |_| | ___) |
-| .__/  \___| (   /  \___/ |____/
-|_|            |_|
-)ASCII";
-    std::cout << GREEN << "Hi there! Welcome to pe$OS commandline!\n" << RESET;
-    std::cout << YELLOW << "Type 'exit' to quit, 'clear' to clear the screen\n\n";
-    std::cout << "** IMPORTANT: Type 'initialize' to load config and start system **\n"
-              << RESET << '\n';
+void printLine(const std::string& line, bool animate) {
+    std::cout << line << '\n' << std::flush;
+    if (animate) {
+        std::this_thread::sleep_for(LINE_DELAY);
+    }
+}
+
+void printHeader(bool animate = false) {
+    printLine("", animate);
+    printLine(R"ASCII(                _     ___   ____)ASCII", animate);
+    printLine(R"ASCII( _ __    ___   | |   / _ \ / ___|)ASCII", animate);
+    printLine(R"ASCII(| '_ \  / _ \ / __) | | | |\___ \)ASCII", animate);
+    printLine(R"ASCII(| |_) ||  __/ \__ \ | |_| | ___) |)ASCII", animate);
+    printLine(R"ASCII(| .__/  \___| (   /  \___/ |____/)ASCII", animate);
+    printLine(R"ASCII(|_|            |_|)ASCII", animate);
+    printLine(std::string(GREEN) + "Hi there! Welcome to pe$OS commandline!" + RESET, animate);
+    printLine(std::string(YELLOW) + "Type 'exit' to quit, 'clear' to clear the screen", animate);
+    printLine("", animate);
+    printLine("** IMPORTANT: Type 'initialize' to load config and start system **", animate);
+    printLine(RESET, animate);
 }
 
 void clearScreen() {
@@ -63,9 +73,9 @@ int main() {
             break;
         } else if (command == "clear") {
             clearScreen();
-            printHeader();
+            printHeader(true);
         } else if (isRecognized(command)) {
-            std::cout << command << " command recognized. Doing something.\n";
+            std::cout << YELLOW << command << RESET << " command recognized. Doing something.\n";
         } else {
             std::cout << "Unknown command: " << command << '\n';
         }
