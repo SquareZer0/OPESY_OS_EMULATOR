@@ -1,6 +1,8 @@
 #include <algorithm>
 #include <cctype>
 #include <chrono>
+#include <cstddef>
+#include <iomanip>
 #include <iostream>
 #include <string>
 #include <thread>
@@ -43,9 +45,7 @@ void printHeader(bool animate = false) {
     printLine("", animate);
     printLine(std::string("Version date: ") + VERSION_DATE, animate);
     printLine("", animate);
-    printLine(std::string(YELLOW) + "Type 'exit' to quit, 'clear' to clear the screen", animate);
-    printLine("", animate);
-    printLine("** IMPORTANT: Type 'initialize' to load config and start system **", animate);
+    printLine(std::string(YELLOW) + "Type 'help' to list commands, 'exit' to quit, 'clear' to clear the screen", animate);
     printLine(RESET, animate);
 }
 
@@ -59,11 +59,37 @@ std::string trim(const std::string& s) {
     return first < last ? std::string(first, last) : std::string();
 }
 
-bool isRecognized(const std::string& command) {
-    static const char* const commands[] = {
-        "initialize", "screen", "scheduler-start", "scheduler-stop", "report-util"};
-    return std::any_of(std::begin(commands), std::end(commands),
-                       [&](const char* c) { return command == c; });
+struct CommandInfo {
+    const char* name;
+    const char* usage;
+    const char* description;
+};
+
+const CommandInfo COMMANDS[] = {
+    {"help", "help", "Displays the available commands and their descriptions"},
+    {"start_marquee", "start_marquee", "Starts the marquee animation"},
+    {"stop_marquee", "stop_marquee", "Stops the marquee animation"},
+    {"set_text", "set_text <text>", "Sets the text shown in the marquee"},
+    {"set_speed", "set_speed <ms>", "Sets the marquee refresh rate in milliseconds"},
+    {"clear", "clear", "Clears the screen and reprints the header"},
+    {"exit", "exit", "Terminates the console"},
+};
+
+const CommandInfo* findCommand(const std::string& name) {
+    for (const CommandInfo& info : COMMANDS) {
+        if (name == info.name) {
+            return &info;
+        }
+    }
+    return nullptr;
+}
+
+void printHelp() {
+    std::cout << "Available commands:\n";
+    for (const CommandInfo& info : COMMANDS) {
+        std::cout << "  " << YELLOW << std::left << std::setw(18) << info.usage << RESET
+                  << info.description << '\n';
+    }
 }
 
 }  // namespace
@@ -79,20 +105,31 @@ int main() {
             break;  // EOF (e.g. Ctrl+Z / Ctrl+D)
         }
 
-        const std::string command = trim(input);
-        if (command.empty()) {
+        const std::string line = trim(input);
+        if (line.empty()) {
             continue;
         }
+
+        // First word is the command; everything after it is its argument text.
+        const std::size_t split = line.find_first_of(" \t");
+        const std::string command = line.substr(0, split);
+        const std::string args = split == std::string::npos ? "" : trim(line.substr(split));
 
         if (command == "exit") {
             break;
         } else if (command == "clear") {
             clearScreen();
             printHeader(true);
-        } else if (isRecognized(command)) {
-            std::cout << YELLOW << command << RESET << " command recognized. Doing something.\n";
+        } else if (command == "help") {
+            printHelp();
+        } else if (findCommand(command)) {
+            std::cout << YELLOW << command << RESET << " command recognized. Doing something.";
+            if (!args.empty()) {
+                std::cout << " (args: " << args << ")";
+            }
+            std::cout << '\n';
         } else {
-            std::cout << "Unknown command: " << command << '\n';
+            std::cout << "Unknown command: " << command << ". Type 'help' to list commands.\n";
         }
     }
     return 0;
