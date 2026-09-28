@@ -58,11 +58,13 @@ constexpr int MIN_BOX_ROWS = 9;
 constexpr int MAX_BOX_ROWS = 16;
 
 // Movement: the text moves exactly one column sideways every frame, so it
-// visibly moves on every frame at a steady pace. Each bounce picks a new random
-// angle between MIN and MAX degrees from horizontal, which sets how many rows
-// it climbs or drops per column, so it never moves purely sideways or purely
-// up/down. Console cells are about twice as tall as they are wide, so the
-// vertical step is halved to make the angles look right on screen.
+// visibly moves on every frame. Each bounce picks a new random angle between
+// MIN and MAX degrees from horizontal, which sets how many rows it climbs or
+// drops per column, so it never moves purely sideways or purely up/down.
+// Console cells are about twice as tall as they are wide, so the vertical step
+// is halved to make the angles look right on screen. Steeper angles cover more
+// ground per frame, so their frames are spaced out proportionally (see
+// stepLength) to keep the on-screen speed the same in every direction.
 constexpr double MIN_ANGLE_DEG = 20.0;
 constexpr double MAX_ANGLE_DEG = 45.0;
 constexpr double CELL_ASPECT = 0.5;  // cell width / cell height
@@ -244,7 +246,7 @@ const CommandInfo COMMANDS[] = {
     {"start_marquee", "Starts the bouncing marquee animation"},
     {"stop_marquee", "Stops the marquee animation"},
     {"set_text <text>", "Sets the text shown in the marquee"},
-    {"set_speed <ms>", "Sets the marquee refresh rate in milliseconds"},
+    {"set_speed <ms>", "Sets the marquee refresh rate in milliseconds (time per character moved)"},
     {"clear", "Clears the screen and reprints the header"},
     {"exit", "Terminates the console"},
 };
@@ -293,6 +295,14 @@ void randomizeDirection(int signX, int signY) {
     const double angle = degrees(rng) * PI / 180.0;
     marquee.vx = signX * 1.0;
     marquee.vy = signY * std::tan(angle) * CELL_ASPECT;
+}
+
+// On-screen length of one frame's step, measured in character widths (a row
+// counts as 1 / CELL_ASPECT widths). It's 1 when moving flat and grows with the
+// angle, up to about 1.41 at 45 degrees. Caller must hold marquee.mtx.
+double stepLength() {
+    const double rowsAsWidths = marquee.vy / CELL_ASPECT;
+    return std::sqrt(marquee.vx * marquee.vx + rowsAsWidths * rowsAsWidths);
 }
 
 // Moves the marquee one frame. On hitting a wall it bounces away from it at a
@@ -400,14 +410,19 @@ void marqueeLoop() {
             continue;
         }
 
-        // The next frame is due `speed` after this one starts, so the time
-        // spent drawing doesn't slow the animation. If a frame runs late, the
-        // next one still waits a full `speed` instead of rushing to catch up,
-        // which would look like a sudden burst of speed.
-        const auto nextFrame = std::chrono::steady_clock::now() + std::chrono::milliseconds(marquee.speedMs);
+        const std::chrono::steady_clock::time_point frameStart = std::chrono::steady_clock::now();
         if (advance) {
             advanceMarquee();
         }
+        // The text travels one character width every `speedMs`, whatever its
+        // direction: the next frame is due after speedMs times the length of
+        // the step it will take, so steeper (longer) steps get more time and
+        // the on-screen speed stays constant. Timing from the start of this
+        // frame means drawing time doesn't slow the animation, and a late
+        // frame doesn't make the next one rush to catch up.
+        const std::chrono::duration<double, std::milli> interval(marquee.speedMs * stepLength());
+        const std::chrono::steady_clock::time_point nextFrame =
+            frameStart + std::chrono::duration_cast<std::chrono::steady_clock::duration>(interval);
         const std::vector<std::string> rows =
             layoutBoxRows(marquee.text, static_cast<int>(std::lround(marquee.x)),
                           static_cast<int>(std::lround(marquee.y)));
