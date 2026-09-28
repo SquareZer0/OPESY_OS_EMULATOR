@@ -16,6 +16,10 @@
 #include <vector>
 
 #include <conio.h>
+
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include <windows.h>
 
 namespace {
