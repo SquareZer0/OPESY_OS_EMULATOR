@@ -40,7 +40,7 @@ compiler or linker settings are needed.
 | `start_marquee` | Starts the bouncing marquee animation |
 | `stop_marquee` | Stops the marquee animation |
 | `set_text <text>` | Sets the text shown in the marquee |
-| `set_speed <ms>` | Sets the marquee refresh rate, in milliseconds |
+| `set_speed <ms>` | Sets the marquee refresh rate, in milliseconds per character moved |
 | `clear` | Clears the screen and reprints the header |
 | `exit` | Terminates the console (Ctrl+C does the same) |
 
@@ -51,6 +51,11 @@ compiler or linker settings are needed.
   a wall it bounces away at a new random angle and changes color. A corner hit
   bounces it back out of the corner. Commands and their output scroll
   underneath the box, so it keeps animating while you type.
+- The marquee moves at the same on-screen speed in every direction: one
+  character width every `set_speed` milliseconds. It always moves exactly one
+  column sideways per frame, so a steeper direction (which also moves up or
+  down) waits proportionally longer between frames, up to about 1.4x
+  `set_speed` at the steepest angle (45 degrees).
 - The box size is measured once at startup (it fills whatever height is left
   after the header and prompt, 9 to 16 rows). Resizing the window while the
   program runs will break the layout.
