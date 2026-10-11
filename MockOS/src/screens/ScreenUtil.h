@@ -1,9 +1,11 @@
 #pragma once
 
 #include "imgui.h"
+#include "imgui_internal.h"  // BringWindowToDisplayFront, GetCurrentWindow
 
 // Begins a borderless ImGui window that covers the whole app window and
-// follows it when resized. Always pair with ImGui::End().
+// follows it when resized. Pass a transparent background to draw over the
+// wallpaper. Always pair with ImGui::End().
 inline void beginFullscreenWindow(const char* name, const ImVec4& background) {
     const ImGuiViewport* viewport = ImGui::GetMainViewport();
     ImGui::SetNextWindowPos(viewport->Pos);
@@ -23,4 +25,13 @@ inline void textCentered(const char* text) {
     const float width = ImGui::CalcTextSize(text).x;
     ImGui::SetCursorPosX((ImGui::GetWindowWidth() - width) * 0.5f);
     ImGui::TextUnformatted(text);
+}
+
+// Keeps the current window (the top bar or the dock) drawn above app windows,
+// which ImGui otherwise brings to the front when clicked. Skipped while a
+// popup such as the shutdown dialog is open, since that must stay on top.
+inline void keepCurrentWindowOnTop() {
+    if (!ImGui::IsPopupOpen("", ImGuiPopupFlags_AnyPopup)) {
+        ImGui::BringWindowToDisplayFront(ImGui::GetCurrentWindow());
+    }
 }

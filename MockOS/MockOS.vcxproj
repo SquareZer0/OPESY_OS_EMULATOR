@@ -94,8 +94,13 @@
     <ClCompile Include="src\screens\BiosScreen.cpp" />
     <ClCompile Include="src\screens\SplashScreen.cpp" />
     <ClCompile Include="src\screens\Desktop.cpp" />
+    <ClCompile Include="src\screens\TopBar.cpp" />
     <ClCompile Include="src\screens\Taskbar.cpp" />
     <ClCompile Include="src\screens\ShutdownScreen.cpp" />
+    <ClCompile Include="src\ui\Theme.cpp" />
+    <ClCompile Include="src\ui\Fonts.cpp" />
+    <ClCompile Include="src\ui\Icons.cpp" />
+    <ClCompile Include="src\ui\Wallpaper.cpp" />
     <ClCompile Include="src\apps\App.cpp" />
     <ClCompile Include="src\apps\AppManager.cpp" />
     <ClCompile Include="src\apps\Calculator.cpp" />
@@ -112,12 +117,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\screens\ScreenUtil.h" />
     <ClInclude Include="src\screens\BiosScreen.h" />
     <ClInclude Include="src\screens\SplashScreen.h" />
     <ClInclude Include="src\screens\Desktop.h" />
+    <ClInclude Include="src\screens\TopBar.h" />
     <ClInclude Include="src\screens\Taskbar.h" />
     <ClInclude Include="src\screens\ShutdownScreen.h" />
+    <ClInclude Include="src\ui\Theme.h" />
+    <ClInclude Include="src\ui\Fonts.h" />
+    <ClInclude Include="src\ui\Icons.h" />
+    <ClInclude Include="src\ui\Wallpaper.h" />
     <ClInclude Include="src\apps\App.h" />
     <ClInclude Include="src\apps\AppManager.h" />
     <ClInclude Include="src\apps\Calculator.h" />
@@ -125,8 +136,14 @@
     <ClInclude Include="src\apps\TaskManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ResourceCompile Include="MockOS.rc" />
+  </ItemGroup>
+  <ItemGroup>
     <Text Include="README.txt" />
     <None Include="PLAN.md" />
+    <None Include="assets\fonts\Poppins-Regular.ttf" />
+    <None Include="assets\fonts\Poppins-SemiBold.ttf" />
+    <Text Include="assets\fonts\OFL.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

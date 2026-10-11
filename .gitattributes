@@ -4,3 +4,4 @@
 *.vcxproj.filters text eol=crlf
 
 *.lib binary
+*.ttf binary

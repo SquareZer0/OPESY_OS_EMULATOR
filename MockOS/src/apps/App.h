@@ -3,17 +3,21 @@
 #include <string>
 
 #include "imgui.h"
+#include "ui/Icons.h"
 
 // Base class for every widget that opens from the taskbar. Subclasses only
 // draw their contents; App handles the window, its close button, and focus.
 class App {
 public:
-    App(std::string name, std::string processName, ImVec2 defaultPos, ImVec2 defaultSize);
+    App(std::string name, std::string processName, icons::AppIconFn icon, ImVec2 defaultPos, ImVec2 defaultSize);
     virtual ~App() = default;
 
-    const std::string& name() const { return name_; }                // window title and taskbar label
+    const std::string& name() const { return name_; }                // window title and taskbar tooltip
     const std::string& processName() const { return processName_; }  // shown in Task Manager
     bool isOpen() const { return open_; }
+
+    // Draws this app's taskbar icon in the square at `min`.
+    void drawIcon(ImDrawList* drawList, const ImVec2& min, float size) const { icon_(drawList, min, size); }
 
     // Opens the window if it's closed, and brings it to the front either way.
     void open();
@@ -29,6 +33,7 @@ protected:
 private:
     std::string name_;
     std::string processName_;
+    icons::AppIconFn icon_;
     ImVec2 defaultPos_;
     ImVec2 defaultSize_;
     bool open_ = false;

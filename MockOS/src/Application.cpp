@@ -7,6 +7,8 @@
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "imgui.h"
+#include "ui/Fonts.h"
+#include "ui/Theme.h"
 
 namespace {
 
@@ -66,7 +68,7 @@ bool Application::init() {
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-    window_ = glfwCreateWindow(INITIAL_WIDTH, INITIAL_HEIGHT, "MockOS", nullptr, nullptr);
+    window_ = glfwCreateWindow(INITIAL_WIDTH, INITIAL_HEIGHT, theme::OS_NAME, nullptr, nullptr);
     if (window_ == nullptr) {
         glfwTerminate();
         return false;
@@ -83,9 +85,8 @@ bool Application::init() {
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
     io.IniFilename = nullptr;  // don't carry window positions over between runs
-    // Scalable monospace font. Screens change its size with ImGui::PushFont(nullptr, size).
-    io.Fonts->AddFontDefaultVector();
-    ImGui::StyleColorsDark();
+    fonts::load();
+    theme::apply();
 
     ImGui_ImplGlfw_InitForOpenGL(window_, true);
     ImGui_ImplOpenGL3_Init(GLSL_VERSION);
@@ -126,7 +127,7 @@ void Application::renderCurrentScreen() {
         }
         break;
     case AppState::ShuttingDown:
-        shutdown_.render();
+        shutdown_.render(elapsed);
         // Ending the main loop (instead of calling exit()) lets run() shut
         // ImGui and GLFW down in order before returning.
         if (shutdown_.isDone(elapsed)) {

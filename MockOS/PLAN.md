@@ -2,24 +2,25 @@
 
 ## Status
 
-Phases 0 and 1 are done: the project builds in Visual Studio, and the whole
-flow (BIOS → splash → desktop → PWR → clean exit) works with placeholder
-screens and apps. Everything marked `PLACEHOLDER (Phase 2)` in the code is
-waiting for its owner.
+The project builds in Visual Studio, and the whole flow (BIOS → splash →
+desktop → PWR → clean exit) works. The desktop has its final look: a pastel,
+frosted-glass theme with a top bar and a floating dock. The three apps are
+still stubs. Everything marked `PLACEHOLDER (Phase 2)` in the code is waiting
+for its owner.
 
 | Requirement | Where | Status |
 |---|---|---|
 | BIOS screen for a few seconds (memory test, CPU, drives) | `src/screens/BiosScreen.cpp` | Placeholder text |
-| Splash screen with animated loading indicator | `src/screens/SplashScreen.cpp` | Placeholder |
+| Splash screen with animated loading indicator | `src/screens/SplashScreen.cpp` | Done (glass card, loading bar, blinking dots); can be refined |
 | Desktop fills the window and follows resizes | `src/screens/Desktop.cpp` | Done |
-| Wallpaper | `Desktop::renderWallpaper()` | Placeholder gradient |
-| Real-time clock (hour and minute) in a fixed corner | `Taskbar::renderClock()` | Done |
-| PWR button closes the app, no force exit | `Taskbar`, `Desktop::renderPowerDialog()`, `Application` | Done |
-| Taskbar with 3+ clickable icon buttons | `src/screens/Taskbar.cpp` | Text buttons, icons to do |
+| Wallpaper | `src/ui/Wallpaper.cpp` | Done (pastel gradient generated in code) |
+| Real-time clock (hour and minute) in a fixed corner | `TopBar::renderClock()` | Done (top-right, next to power) |
+| PWR button closes the app, no force exit | `TopBar`, `Desktop::renderPowerDialog()`, `Application` | Done |
+| Taskbar with 3+ clickable icon buttons | `src/screens/Taskbar.cpp` (the dock) | Done |
+| Taskbar shows running apps | `src/screens/Taskbar.cpp` | Done (dot under running apps; front app named in the top bar) |
+| Widgets open and close from the buttons, draggable | `App`, `AppManager` | Done |
 | Widget 1 and widget 2 | `src/apps/Calculator.cpp`, `src/apps/Notepad.cpp` | Stubs |
 | Task Manager table with CPU and memory | `src/apps/TaskManager.cpp` | Stub |
-| Widgets open and close from the buttons, draggable | `App`, `AppManager` | Done |
-| Taskbar shows running apps | `src/screens/Taskbar.cpp` | Basic highlight |
 | README.txt with members, how to run, entry file | `README.txt` | Done; update as features land |
 
 ## How the code fits together
@@ -34,37 +35,53 @@ main() → Application::run()
 - The window's X button and Alt+F4 are redirected to the PWR dialog
   (`Application::windowCloseCallback`). The only way out is PWR, and it
   ends the main loop normally instead of calling `exit()`.
-- `AppManager` holds the only list of apps. The taskbar, Task Manager, and
-  each window's X button all change the same open/closed flag.
-- The taskbar is raised above app windows every frame (`BringWindowToDisplayFront`),
-  so a dragged window can't cover it.
+- `AppManager` holds the only list of apps. The dock, the top bar, Task
+  Manager, and each window's X button all use the same open/closed flag.
+- The top bar and the dock are raised above app windows every frame
+  (`keepCurrentWindowOnTop()`), and app windows can't be dragged up behind
+  the top bar.
 
 **Adding an app:** subclass `App` (see `Calculator`), draw its contents in
-`renderContents()`, and add it in the `AppManager` constructor. It gets a
-taskbar button and a Task Manager entry automatically.
+`renderContents()`, give it an icon function from `src/ui/Icons.cpp`, and add
+it in the `AppManager` constructor. It gets a dock icon and a Task Manager
+entry automatically.
 
 **Adding files:** use Solution Explorer → Add → New Item (or Existing Item)
 so the file is listed in `MockOS.vcxproj`. Put source files under `src/`.
 
-## Phase 2 split
+## Using the theme
+
+Every ImGui widget already uses the pastel theme (`theme::apply()`), so most
+app code needs nothing special. For custom touches:
+
+| Need | Use |
+|---|---|
+| Heading text | `ImGui::PushFont(fonts::semibold(), 18.0f)` … `ImGui::PopFont()` |
+| Bigger or smaller text | `ImGui::PushFont(nullptr, size)` … `ImGui::PopFont()` |
+| Main action button | `theme::accentButton("Save")` |
+| Colors | `theme::TEXT`, `theme::TEXT_MUTED`, `theme::ACCENT` |
+| A glass card or panel | `theme::drawGlassPanel(drawList, min, max, rounding)` |
+| An icon | add a function to `src/ui/Icons.cpp`, drawn with `ImDrawList` shapes |
+| The OS name | `theme::OS_NAME` (`"pe$OS"`) |
+
+## Phase 2 split (suggested)
+
+The desktop and dock are done, so the old "Desktop + Taskbar" share is gone.
+Suggested: take Notepad off the Calculator owner and give it to B.
 
 | Owner | Work |
 |---|---|
-| A | **BIOS**: your own PC's specs, a memory test that counts up to your RAM size, drive detection lines. Optional: read real specs with `__cpuid` and `GlobalMemoryStatusEx`. **Splash**: your own logo (drawn with `ImDrawList` or an image), a loading bar, a blinking ellipsis, a fade into the desktop. |
-| B | **Desktop**: your own wallpaper (gradient, pattern, or image). **Taskbar**: icon buttons instead of text, a clearer running-apps display (for example a dot under each open app's icon), clock styling. |
-| C | **Calculator**: display, 4×5 button grid, + − × ÷, decimal point, C/CE, ±, %, divide by zero shows "Error". **Notepad**: `ImGui::InputTextMultiline` on a `std::string` (include `misc/cpp/imgui_stdlib.h`), a menu bar (New, a fake Save), word and character count. |
+| A | **BIOS**: your own PC's specs, a memory test that counts up to your RAM size, drive detection lines. Optional: read real specs with `__cpuid` and `GlobalMemoryStatusEx`. **Splash**: refine if wanted. |
+| B | **Notepad**: `ImGui::InputTextMultiline` on a `std::string` (include `misc/cpp/imgui_stdlib.h`), a menu bar (New, a fake Save), word and character count. |
+| C | **Calculator**: display, 4×5 button grid, + − × ÷, decimal point, C/CE, ±, %, divide by zero shows "Error". |
 | D | **Task Manager**: `ImGui::BeginTable` with Name, PID, Status, CPU %, Memory (MB); sortable, striped rows, scrolling. Rows are about 10 fake system processes plus every open app (`AppManager::list()`). CPU and memory drift slightly every second. Footer with total usage bars. Bonus: an "End task" button that closes the selected app. |
 
 ## Phase 3: polish
 
-- One shared theme (colors, rounding, padding). The default dark style makes
-  windows slightly see-through; set `ImGuiCol_WindowBg` alpha to 1.
-- A nicer UI font, if wanted (e.g. load `C:\Windows\Fonts\segoeui.ttf` with
-  `AddFontFromFileTTF`, keeping the monospace font for the BIOS).
-- Icons and images need [stb_image.h](https://github.com/nothings/stb) (not
-  included yet). Load assets relative to the .exe's folder
-  (`GetModuleFileNameW`), not the current directory, so the program still
-  works when started from somewhere else.
+- Make the finished apps match the theme (see "Using the theme").
+- Images, if anyone adds them, need [stb_image.h](https://github.com/nothings/stb)
+  (not included). Build them into the .exe through `MockOS.rc`, like the fonts,
+  so the program still works when started from another folder.
 
 ## Phase 4: submit
 
@@ -75,22 +92,24 @@ so the file is listed in `MockOS.vcxproj`. Put source files under `src/`.
 ## Checklist (also works as the demo script)
 
 - [ ] BIOS shows memory test, CPU, and drives for a few seconds, then the splash, then the desktop, with no clicks needed
-- [ ] The splash has visible animation
-- [ ] After resizing or maximizing, the wallpaper fills the window, the taskbar spans its width, and the clock stays in its corner
-- [ ] The clock matches the Windows clock and changes when the minute does
-- [ ] 3+ taskbar icon buttons; each opens and closes its app; app windows can be dragged
-- [ ] The taskbar shows which apps are running and updates when they open and close
+- [x] The splash has visible animation
+- [ ] After resizing or maximizing, the wallpaper fills the window, the top bar spans its width, the dock stays centered, and the clock stays in its corner
+- [x] The clock matches the Windows clock and changes when the minute does
+- [x] 3+ dock icon buttons; each opens and closes its app; app windows can be dragged
+- [x] The dock shows which apps are running and updates when they open and close
 - [ ] Task Manager shows a table of processes with CPU and memory values
-- [ ] PWR closes the app cleanly (exit code 0, process gone from Windows Task Manager)
-- [ ] The window's X and Alt+F4 don't skip the PWR flow
+- [x] PWR closes the app cleanly (exit code 0, process gone from Windows Task Manager)
+- [x] The window's X and Alt+F4 don't skip the PWR flow
 - [ ] Minimized, the app uses almost no CPU
-- [ ] Works when started from a different folder
+- [x] Works when started from a different folder
 
 ## Notes
 
-- Dear ImGui 1.92 changed fonts: change size with `ImGui::PushFont(nullptr, size)`.
+- Dear ImGui 1.92 changed fonts: change size with `ImGui::PushFont(font, size)`.
   Tutorials written for older versions use `SetWindowFontScale` or load one
   font per size.
+- Glass is a translucent tint, not a real blur: windows behind a glass panel
+  show through faintly. Window backgrounds are 80% opaque to keep that subtle.
 - In Debug builds, F12 opens `ImGui::ShowDemoWindow()`, which shows every
   widget along with the code for it.
 - `imgui.ini` is turned off (`io.IniFilename = nullptr`), so window positions

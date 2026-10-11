@@ -16,6 +16,9 @@ public:
 
     const std::vector<std::unique_ptr<App>>& list() const { return apps_; }
 
+    // The app window that most recently had focus, or nullptr if none is open.
+    const App* frontApp() const { return frontApp_; }
+
     // Draws every open app window.
     void render();
 

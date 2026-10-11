@@ -1,0 +1,5 @@
+// Files compiled into MockOS.exe, so it runs without an assets folder next to it.
+#include "src/resource.h"
+
+IDR_FONT_POPPINS_REGULAR  RCDATA "assets\\fonts\\Poppins-Regular.ttf"
+IDR_FONT_POPPINS_SEMIBOLD RCDATA "assets\\fonts\\Poppins-SemiBold.ttf"

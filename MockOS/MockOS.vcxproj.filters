@@ -10,6 +10,12 @@
     <Filter Include="src\apps">
       <UniqueIdentifier>{76ECAE34-93D0-4460-9FEB-7627026CA409}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\ui">
+      <UniqueIdentifier>{3F0C9C52-6B1E-4D7A-9E52-0D5B7A1C4E21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets">
+      <UniqueIdentifier>{8D2E4B17-2C5A-4F0E-B6A3-71E9C0D45F38}</UniqueIdentifier>
+    </Filter>
     <Filter Include="external">
       <UniqueIdentifier>{77A3C0F1-F05B-4780-8AE5-1609993DACAC}</UniqueIdentifier>
     </Filter>
@@ -20,6 +26,7 @@
     <ClCompile Include="src\screens\BiosScreen.cpp"><Filter>src\screens</Filter></ClCompile>
     <ClCompile Include="src\screens\SplashScreen.cpp"><Filter>src\screens</Filter></ClCompile>
     <ClCompile Include="src\screens\Desktop.cpp"><Filter>src\screens</Filter></ClCompile>
+    <ClCompile Include="src\screens\TopBar.cpp"><Filter>src\screens</Filter></ClCompile>
     <ClCompile Include="src\screens\Taskbar.cpp"><Filter>src\screens</Filter></ClCompile>
     <ClCompile Include="src\screens\ShutdownScreen.cpp"><Filter>src\screens</Filter></ClCompile>
     <ClCompile Include="src\apps\App.cpp"><Filter>src\apps</Filter></ClCompile>
@@ -27,6 +34,10 @@
     <ClCompile Include="src\apps\Calculator.cpp"><Filter>src\apps</Filter></ClCompile>
     <ClCompile Include="src\apps\Notepad.cpp"><Filter>src\apps</Filter></ClCompile>
     <ClCompile Include="src\apps\TaskManager.cpp"><Filter>src\apps</Filter></ClCompile>
+    <ClCompile Include="src\ui\Theme.cpp"><Filter>src\ui</Filter></ClCompile>
+    <ClCompile Include="src\ui\Fonts.cpp"><Filter>src\ui</Filter></ClCompile>
+    <ClCompile Include="src\ui\Icons.cpp"><Filter>src\ui</Filter></ClCompile>
+    <ClCompile Include="src\ui\Wallpaper.cpp"><Filter>src\ui</Filter></ClCompile>
     <ClCompile Include="external\imgui\imgui.cpp"><Filter>external</Filter></ClCompile>
     <ClCompile Include="external\imgui\imgui_demo.cpp"><Filter>external</Filter></ClCompile>
     <ClCompile Include="external\imgui\imgui_draw.cpp"><Filter>external</Filter></ClCompile>
@@ -38,10 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h"><Filter>src</Filter></ClInclude>
+    <ClInclude Include="src\resource.h"><Filter>src</Filter></ClInclude>
     <ClInclude Include="src\screens\ScreenUtil.h"><Filter>src\screens</Filter></ClInclude>
     <ClInclude Include="src\screens\BiosScreen.h"><Filter>src\screens</Filter></ClInclude>
     <ClInclude Include="src\screens\SplashScreen.h"><Filter>src\screens</Filter></ClInclude>
     <ClInclude Include="src\screens\Desktop.h"><Filter>src\screens</Filter></ClInclude>
+    <ClInclude Include="src\screens\TopBar.h"><Filter>src\screens</Filter></ClInclude>
     <ClInclude Include="src\screens\Taskbar.h"><Filter>src\screens</Filter></ClInclude>
     <ClInclude Include="src\screens\ShutdownScreen.h"><Filter>src\screens</Filter></ClInclude>
     <ClInclude Include="src\apps\App.h"><Filter>src\apps</Filter></ClInclude>
@@ -49,9 +62,19 @@
     <ClInclude Include="src\apps\Calculator.h"><Filter>src\apps</Filter></ClInclude>
     <ClInclude Include="src\apps\Notepad.h"><Filter>src\apps</Filter></ClInclude>
     <ClInclude Include="src\apps\TaskManager.h"><Filter>src\apps</Filter></ClInclude>
+    <ClInclude Include="src\ui\Theme.h"><Filter>src\ui</Filter></ClInclude>
+    <ClInclude Include="src\ui\Fonts.h"><Filter>src\ui</Filter></ClInclude>
+    <ClInclude Include="src\ui\Icons.h"><Filter>src\ui</Filter></ClInclude>
+    <ClInclude Include="src\ui\Wallpaper.h"><Filter>src\ui</Filter></ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MockOS.rc"><Filter>assets</Filter></ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="README.txt" />
     <None Include="PLAN.md" />
+    <None Include="assets\fonts\Poppins-Regular.ttf"><Filter>assets</Filter></None>
+    <None Include="assets\fonts\Poppins-SemiBold.ttf"><Filter>assets</Filter></None>
+    <Text Include="assets\fonts\OFL.txt"><Filter>assets</Filter></Text>
   </ItemGroup>
 </Project>
