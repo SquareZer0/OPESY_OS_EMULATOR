@@ -3,14 +3,13 @@
 ## Status
 
 The project builds in Visual Studio, and the whole flow (BIOS → splash →
-desktop → PWR → clean exit) works. The desktop has its final look: a pastel,
-frosted-glass theme with a top bar and a floating dock. The three apps are
-still stubs. Everything marked `PLACEHOLDER (Phase 2)` in the code is waiting
-for its owner.
+desktop → PWR → clean exit) works. The BIOS and the desktop are finished: the
+desktop has a pastel, frosted-glass theme with a top bar and a floating dock.
+Only the three apps are still stubs, marked `PLACEHOLDER (Phase 2)` in the code.
 
 | Requirement | Where | Status |
 |---|---|---|
-| BIOS screen for a few seconds (memory test, CPU, drives) | `src/screens/BiosScreen.cpp` | Placeholder text |
+| BIOS screen for a few seconds (memory test, CPU, drives) | `src/screens/BiosScreen.cpp`, `src/system/SystemInfo.cpp` | Done (real CPU, RAM, mainboard, graphics card and drives of the PC it runs on; memory test counts up) |
 | Splash screen with animated loading indicator | `src/screens/SplashScreen.cpp` | Done (glass card, loading bar, blinking dots); can be refined |
 | Desktop fills the window and follows resizes | `src/screens/Desktop.cpp` | Done |
 | Wallpaper | `src/ui/Wallpaper.cpp` | Done (pastel gradient generated in code) |
@@ -66,12 +65,13 @@ app code needs nothing special. For custom touches:
 
 ## Phase 2 split (suggested)
 
-The desktop and dock are done, so the old "Desktop + Taskbar" share is gone.
-Suggested: take Notepad off the Calculator owner and give it to B.
+The BIOS, desktop and dock are done, so A's and B's original shares are
+gone. Suggested: B takes Notepad off the Calculator owner, and A helps D with
+Task Manager (the biggest remaining piece) or refines the splash.
 
 | Owner | Work |
 |---|---|
-| A | **BIOS**: your own PC's specs, a memory test that counts up to your RAM size, drive detection lines. Optional: read real specs with `__cpuid` and `GlobalMemoryStatusEx`. **Splash**: refine if wanted. |
+| A | Help D with **Task Manager**, or refine the **splash** if wanted. |
 | B | **Notepad**: `ImGui::InputTextMultiline` on a `std::string` (include `misc/cpp/imgui_stdlib.h`), a menu bar (New, a fake Save), word and character count. |
 | C | **Calculator**: display, 4×5 button grid, + − × ÷, decimal point, C/CE, ±, %, divide by zero shows "Error". |
 | D | **Task Manager**: `ImGui::BeginTable` with Name, PID, Status, CPU %, Memory (MB); sortable, striped rows, scrolling. Rows are about 10 fake system processes plus every open app (`AppManager::list()`). CPU and memory drift slightly every second. Footer with total usage bars. Bonus: an "End task" button that closes the selected app. |
@@ -91,16 +91,16 @@ Suggested: take Notepad off the Calculator owner and give it to B.
 
 ## Checklist (also works as the demo script)
 
-- [ ] BIOS shows memory test, CPU, and drives for a few seconds, then the splash, then the desktop, with no clicks needed
+- [x] BIOS shows memory test, CPU, and drives for a few seconds, then the splash, then the desktop, with no clicks needed
 - [x] The splash has visible animation
-- [ ] After resizing or maximizing, the wallpaper fills the window, the top bar spans its width, the dock stays centered, and the clock stays in its corner
+- [x] After resizing or maximizing, the wallpaper fills the window, the top bar spans its width, the dock stays centered, and the clock stays in its corner
 - [x] The clock matches the Windows clock and changes when the minute does
 - [x] 3+ dock icon buttons; each opens and closes its app; app windows can be dragged
 - [x] The dock shows which apps are running and updates when they open and close
 - [ ] Task Manager shows a table of processes with CPU and memory values
 - [x] PWR closes the app cleanly (exit code 0, process gone from Windows Task Manager)
 - [x] The window's X and Alt+F4 don't skip the PWR flow
-- [ ] Minimized, the app uses almost no CPU
+- [x] Minimized, the app uses almost no CPU
 - [x] Works when started from a different folder
 
 ## Notes

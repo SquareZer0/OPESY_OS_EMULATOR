@@ -13,6 +13,9 @@
     <Filter Include="src\ui">
       <UniqueIdentifier>{3F0C9C52-6B1E-4D7A-9E52-0D5B7A1C4E21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\system">
+      <UniqueIdentifier>{5A7E1F3C-9B2D-4C68-A1E4-6F0B3D8C2E97}</UniqueIdentifier>
+    </Filter>
     <Filter Include="assets">
       <UniqueIdentifier>{8D2E4B17-2C5A-4F0E-B6A3-71E9C0D45F38}</UniqueIdentifier>
     </Filter>
@@ -38,6 +41,7 @@
     <ClCompile Include="src\ui\Fonts.cpp"><Filter>src\ui</Filter></ClCompile>
     <ClCompile Include="src\ui\Icons.cpp"><Filter>src\ui</Filter></ClCompile>
     <ClCompile Include="src\ui\Wallpaper.cpp"><Filter>src\ui</Filter></ClCompile>
+    <ClCompile Include="src\system\SystemInfo.cpp"><Filter>src\system</Filter></ClCompile>
     <ClCompile Include="external\imgui\imgui.cpp"><Filter>external</Filter></ClCompile>
     <ClCompile Include="external\imgui\imgui_demo.cpp"><Filter>external</Filter></ClCompile>
     <ClCompile Include="external\imgui\imgui_draw.cpp"><Filter>external</Filter></ClCompile>
@@ -66,6 +70,7 @@
     <ClInclude Include="src\ui\Fonts.h"><Filter>src\ui</Filter></ClInclude>
     <ClInclude Include="src\ui\Icons.h"><Filter>src\ui</Filter></ClInclude>
     <ClInclude Include="src\ui\Wallpaper.h"><Filter>src\ui</Filter></ClInclude>
+    <ClInclude Include="src\system\SystemInfo.h"><Filter>src\system</Filter></ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MockOS.rc"><Filter>assets</Filter></ResourceCompile>

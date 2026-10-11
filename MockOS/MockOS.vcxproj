@@ -101,6 +101,7 @@
     <ClCompile Include="src\ui\Fonts.cpp" />
     <ClCompile Include="src\ui\Icons.cpp" />
     <ClCompile Include="src\ui\Wallpaper.cpp" />
+    <ClCompile Include="src\system\SystemInfo.cpp" />
     <ClCompile Include="src\apps\App.cpp" />
     <ClCompile Include="src\apps\AppManager.cpp" />
     <ClCompile Include="src\apps\Calculator.cpp" />
@@ -129,6 +130,7 @@
     <ClInclude Include="src\ui\Fonts.h" />
     <ClInclude Include="src\ui\Icons.h" />
     <ClInclude Include="src\ui\Wallpaper.h" />
+    <ClInclude Include="src\system\SystemInfo.h" />
     <ClInclude Include="src\apps\App.h" />
     <ClInclude Include="src\apps\AppManager.h" />
     <ClInclude Include="src\apps\Calculator.h" />
