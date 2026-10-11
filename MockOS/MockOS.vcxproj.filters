@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{B896A445-8C24-49C2-9DE1-F48EDE12C8BB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\screens">
+      <UniqueIdentifier>{CA0BE51D-5602-4070-8A53-9BEA35DA9731}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\apps">
+      <UniqueIdentifier>{76ECAE34-93D0-4460-9FEB-7627026CA409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external">
+      <UniqueIdentifier>{77A3C0F1-F05B-4780-8AE5-1609993DACAC}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp"><Filter>src</Filter></ClCompile>
+    <ClCompile Include="src\Application.cpp"><Filter>src</Filter></ClCompile>
+    <ClCompile Include="src\screens\BiosScreen.cpp"><Filter>src\screens</Filter></ClCompile>
+    <ClCompile Include="src\screens\SplashScreen.cpp"><Filter>src\screens</Filter></ClCompile>
+    <ClCompile Include="src\screens\Desktop.cpp"><Filter>src\screens</Filter></ClCompile>
+    <ClCompile Include="src\screens\Taskbar.cpp"><Filter>src\screens</Filter></ClCompile>
+    <ClCompile Include="src\screens\ShutdownScreen.cpp"><Filter>src\screens</Filter></ClCompile>
+    <ClCompile Include="src\apps\App.cpp"><Filter>src\apps</Filter></ClCompile>
+    <ClCompile Include="src\apps\AppManager.cpp"><Filter>src\apps</Filter></ClCompile>
+    <ClCompile Include="src\apps\Calculator.cpp"><Filter>src\apps</Filter></ClCompile>
+    <ClCompile Include="src\apps\Notepad.cpp"><Filter>src\apps</Filter></ClCompile>
+    <ClCompile Include="src\apps\TaskManager.cpp"><Filter>src\apps</Filter></ClCompile>
+    <ClCompile Include="external\imgui\imgui.cpp"><Filter>external</Filter></ClCompile>
+    <ClCompile Include="external\imgui\imgui_demo.cpp"><Filter>external</Filter></ClCompile>
+    <ClCompile Include="external\imgui\imgui_draw.cpp"><Filter>external</Filter></ClCompile>
+    <ClCompile Include="external\imgui\imgui_tables.cpp"><Filter>external</Filter></ClCompile>
+    <ClCompile Include="external\imgui\imgui_widgets.cpp"><Filter>external</Filter></ClCompile>
+    <ClCompile Include="external\imgui\backends\imgui_impl_glfw.cpp"><Filter>external</Filter></ClCompile>
+    <ClCompile Include="external\imgui\backends\imgui_impl_opengl3.cpp"><Filter>external</Filter></ClCompile>
+    <ClCompile Include="external\imgui\misc\cpp\imgui_stdlib.cpp"><Filter>external</Filter></ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Application.h"><Filter>src</Filter></ClInclude>
+    <ClInclude Include="src\screens\ScreenUtil.h"><Filter>src\screens</Filter></ClInclude>
+    <ClInclude Include="src\screens\BiosScreen.h"><Filter>src\screens</Filter></ClInclude>
+    <ClInclude Include="src\screens\SplashScreen.h"><Filter>src\screens</Filter></ClInclude>
+    <ClInclude Include="src\screens\Desktop.h"><Filter>src\screens</Filter></ClInclude>
+    <ClInclude Include="src\screens\Taskbar.h"><Filter>src\screens</Filter></ClInclude>
+    <ClInclude Include="src\screens\ShutdownScreen.h"><Filter>src\screens</Filter></ClInclude>
+    <ClInclude Include="src\apps\App.h"><Filter>src\apps</Filter></ClInclude>
+    <ClInclude Include="src\apps\AppManager.h"><Filter>src\apps</Filter></ClInclude>
+    <ClInclude Include="src\apps\Calculator.h"><Filter>src\apps</Filter></ClInclude>
+    <ClInclude Include="src\apps\Notepad.h"><Filter>src\apps</Filter></ClInclude>
+    <ClInclude Include="src\apps\TaskManager.h"><Filter>src\apps</Filter></ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="README.txt" />
+    <None Include="PLAN.md" />
+  </ItemGroup>
+</Project>
