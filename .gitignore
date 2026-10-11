@@ -1,2 +1,18 @@
 *.exe
 *.o
+
+# Visual Studio
+.vs/
+*.user
+*.obj
+*.pdb
+*.ilk
+*.idb
+*.tlog
+*.log
+*.lastbuildstate
+bin/
+obj/
+
+# Dear ImGui saves window layouts here at runtime
+imgui.ini
