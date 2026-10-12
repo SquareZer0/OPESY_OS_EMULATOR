@@ -111,6 +111,12 @@ void Application::renderCurrentScreen() {
     case AppState::Bios:
         bios_.render(elapsed);
         if (bios_.isDone(elapsed)) {
+            switchTo(AppState::Loading);
+        }
+        break;
+    case AppState::Loading:
+        loading_.render(elapsed);
+        if (loading_.isDone(elapsed)) {
             switchTo(AppState::Splash);
         }
         break;

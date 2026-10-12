@@ -27,6 +27,7 @@
     <ClCompile Include="src\main.cpp"><Filter>src</Filter></ClCompile>
     <ClCompile Include="src\Application.cpp"><Filter>src</Filter></ClCompile>
     <ClCompile Include="src\screens\BiosScreen.cpp"><Filter>src\screens</Filter></ClCompile>
+    <ClCompile Include="src\screens\LoadingScreen.cpp"><Filter>src\screens</Filter></ClCompile>
     <ClCompile Include="src\screens\SplashScreen.cpp"><Filter>src\screens</Filter></ClCompile>
     <ClCompile Include="src\screens\Desktop.cpp"><Filter>src\screens</Filter></ClCompile>
     <ClCompile Include="src\screens\TopBar.cpp"><Filter>src\screens</Filter></ClCompile>
@@ -56,6 +57,7 @@
     <ClInclude Include="src\resource.h"><Filter>src</Filter></ClInclude>
     <ClInclude Include="src\screens\ScreenUtil.h"><Filter>src\screens</Filter></ClInclude>
     <ClInclude Include="src\screens\BiosScreen.h"><Filter>src\screens</Filter></ClInclude>
+    <ClInclude Include="src\screens\LoadingScreen.h"><Filter>src\screens</Filter></ClInclude>
     <ClInclude Include="src\screens\SplashScreen.h"><Filter>src\screens</Filter></ClInclude>
     <ClInclude Include="src\screens\Desktop.h"><Filter>src\screens</Filter></ClInclude>
     <ClInclude Include="src\screens\TopBar.h"><Filter>src\screens</Filter></ClInclude>

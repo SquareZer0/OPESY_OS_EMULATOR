@@ -10,7 +10,7 @@
 
 namespace {
 
-constexpr double DURATION_SECONDS = 3.0;
+constexpr double DURATION_SECONDS = 2.0;
 constexpr float LOGO_FONT_SIZE = 52.0f;
 constexpr ImVec2 CARD_SIZE(360.0f, 210.0f);
 constexpr float CARD_ROUNDING = 26.0f;
