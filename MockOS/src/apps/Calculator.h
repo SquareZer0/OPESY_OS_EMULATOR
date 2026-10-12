@@ -12,12 +12,14 @@ protected:
     void renderContents() override;
 
 private:
+    void handleKeyboard();
     void press(char key);
     void pressDigit(char key);
     void pressOperator(char op);
     void pressEquals();
     void pressPercent();
     void toggleSign();
+    void backspace();
     void clearAll();
     void showError();
     double entryValue() const;

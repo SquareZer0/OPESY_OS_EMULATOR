@@ -21,7 +21,7 @@ constexpr std::size_t MAX_ENTRY_LENGTH = 16;
 
 struct Key {
     const char* label;
-    char action;  // 'E' = CE, 'C' = C, 'n' = plus/minus
+    char action;  // 'E' = CE, 'C' = C, 'n' = plus/minus, 'B' = backspace (keyboard only)
 };
 
 const Key KEYS[5][4] = {
@@ -88,6 +88,10 @@ Calculator::Calculator()
     : App("Calculator", "calc.exe", icons::calculator, ImVec2(80.0f, 60.0f), ImVec2(260.0f, 340.0f)) {}
 
 void Calculator::renderContents() {
+    if (ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows)) {
+        handleKeyboard();
+    }
+
     ImGui::PushStyleColor(ImGuiCol_Text, ImGui::ColorConvertU32ToFloat4(theme::TEXT_MUTED));
     textRightAligned(history_.empty() ? " " : history_);
     ImGui::PopStyleColor();
@@ -123,14 +127,37 @@ void Calculator::renderContents() {
     }
 }
 
+// Uses the typed characters rather than key codes, so Shift+8 gives '*' and
+// the number pad works on any keyboard layout.
+void Calculator::handleKeyboard() {
+    for (const ImWchar c : ImGui::GetIO().InputQueueCharacters) {
+        if ((c >= '0' && c <= '9') || c == '.' || c == '+' || c == '-' || c == '*' || c == '/' || c == '%' ||
+            c == '=') {
+            press(static_cast<char>(c));
+        }
+    }
+    if (ImGui::IsKeyPressed(ImGuiKey_Enter, false) || ImGui::IsKeyPressed(ImGuiKey_KeypadEnter, false)) {
+        press('=');
+    }
+    if (ImGui::IsKeyPressed(ImGuiKey_Escape, false)) {
+        press('C');
+    }
+    if (ImGui::IsKeyPressed(ImGuiKey_Delete, false)) {
+        press('E');
+    }
+    if (ImGui::IsKeyPressed(ImGuiKey_Backspace)) {
+        press('B');
+    }
+}
+
 void Calculator::press(char key) {
     if (key == 'C') {
         clearAll();
         return;
     }
     if (error_) {
-        // After an error only CE, a digit or the decimal point start over.
-        if (key != 'E' && key != '.' && !(key >= '0' && key <= '9')) {
+        // After an error only CE, backspace, a digit or the decimal point start over.
+        if (key != 'E' && key != 'B' && key != '.' && !(key >= '0' && key <= '9')) {
             return;
         }
         clearAll();
@@ -156,6 +183,9 @@ void Calculator::press(char key) {
             break;
         case 'n':
             toggleSign();
+            break;
+        case 'B':
+            backspace();
             break;
         default:
             pressDigit(key);
@@ -236,6 +266,17 @@ void Calculator::toggleSign() {
     }
     entry_ = entry_[0] == '-' ? entry_.substr(1) : "-" + entry_;
     hasEntry_ = true;
+}
+
+// Only edits a number being typed; results stay as they are, like Windows.
+void Calculator::backspace() {
+    if (!typing_) {
+        return;
+    }
+    entry_.pop_back();
+    if (entry_.empty() || entry_ == "-") {
+        entry_ = "0";
+    }
 }
 
 void Calculator::clearAll() {
