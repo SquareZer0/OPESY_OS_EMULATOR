@@ -107,6 +107,7 @@
     <ClCompile Include="src\apps\AppManager.cpp" />
     <ClCompile Include="src\apps\Browser.cpp" />
     <ClCompile Include="src\apps\Calculator.cpp" />
+    <ClCompile Include="src\apps\FileExplorer.cpp" />
     <ClCompile Include="src\apps\Notepad.cpp" />
     <ClCompile Include="src\apps\TaskManager.cpp" />
     <ClCompile Include="external\imgui\imgui.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="src\apps\AppManager.h" />
     <ClInclude Include="src\apps\Browser.h" />
     <ClInclude Include="src\apps\Calculator.h" />
+    <ClInclude Include="src\apps\FileExplorer.h" />
     <ClInclude Include="src\apps\Notepad.h" />
     <ClInclude Include="src\apps\TaskManager.h" />
   </ItemGroup>

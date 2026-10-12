@@ -32,13 +32,23 @@ void moreVertical(ImDrawList* drawList, const ImVec2& center, float size, ImU32 
 void search(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color);
 void mic(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color);
 
+// Line icons for the File Explorer sidebar.
+void download(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color);
+void document(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color);
+void music(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color);
+void picture(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color);
+void video(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color);
+void computer(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color);
+void network(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color);
+
 // The red, yellow, green and blue Chrome logo, `size` across.
 void chromeLogo(ImDrawList* drawList, const ImVec2& center, float size);
 
 // App icons: a rounded pastel tile with a white symbol, filling the square
 // whose top-left corner is `min`. Each app passes one of these to App.
 using AppIconFn = void (*)(ImDrawList* drawList, const ImVec2& min, float size);
-void chrome(ImDrawList* drawList, const ImVec2& min, float size);  // the colored logo on a white tile
+void chrome(ImDrawList* drawList, const ImVec2& min, float size);        // the colored logo on a white tile
+void fileExplorer(ImDrawList* drawList, const ImVec2& min, float size);  // a yellow folder on a white tile
 void calculator(ImDrawList* drawList, const ImVec2& min, float size);
 void notepad(ImDrawList* drawList, const ImVec2& min, float size);
 void taskManager(ImDrawList* drawList, const ImVec2& min, float size);

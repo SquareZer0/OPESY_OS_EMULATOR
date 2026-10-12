@@ -252,6 +252,77 @@ void mic(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
                       thickness);
 }
 
+void download(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    // An arrow pointing down into a tray.
+    const float thickness = size * 0.10f;
+    auto p = [&](float x, float y) { return ImVec2(center.x + size * x, center.y + size * y); };
+    drawList->AddLine(p(0.0f, -0.44f), p(0.0f, 0.10f), color, thickness);
+    const ImVec2 head[] = {p(-0.22f, -0.10f), p(0.0f, 0.12f), p(0.22f, -0.10f)};
+    drawList->AddPolyline(head, 3, color, 0, thickness);
+    const ImVec2 tray[] = {p(-0.40f, 0.14f), p(-0.40f, 0.40f), p(0.40f, 0.40f), p(0.40f, 0.14f)};
+    drawList->AddPolyline(tray, 4, color, 0, thickness);
+}
+
+void document(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    // A page with a folded corner and two lines of text.
+    const float thickness = size * 0.09f;
+    auto p = [&](float x, float y) { return ImVec2(center.x + size * x, center.y + size * y); };
+    const ImVec2 page[] = {p(-0.30f, -0.44f), p(0.12f, -0.44f), p(0.32f, -0.24f), p(0.32f, 0.44f), p(-0.30f, 0.44f)};
+    drawList->AddPolyline(page, 5, color, ImDrawFlags_Closed, thickness);
+    const ImVec2 fold[] = {p(0.12f, -0.44f), p(0.12f, -0.24f), p(0.32f, -0.24f)};
+    drawList->AddPolyline(fold, 3, color, 0, thickness);
+    drawList->AddLine(p(-0.16f, 0.02f), p(0.18f, 0.02f), color, thickness);
+    drawList->AddLine(p(-0.16f, 0.22f), p(0.18f, 0.22f), color, thickness);
+}
+
+void music(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    // Two notes joined by a beam.
+    const float thickness = size * 0.09f;
+    auto p = [&](float x, float y) { return ImVec2(center.x + size * x, center.y + size * y); };
+    drawList->AddCircleFilled(p(-0.22f, 0.28f), size * 0.13f, color);
+    drawList->AddCircleFilled(p(0.24f, 0.18f), size * 0.13f, color);
+    drawList->AddLine(p(-0.10f, 0.28f), p(-0.10f, -0.30f), color, thickness);
+    drawList->AddLine(p(0.36f, 0.18f), p(0.36f, -0.40f), color, thickness);
+    drawList->AddLine(p(-0.10f, -0.30f), p(0.36f, -0.40f), color, size * 0.14f);
+}
+
+void picture(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    // A frame with mountains and a sun.
+    const float thickness = size * 0.09f;
+    auto p = [&](float x, float y) { return ImVec2(center.x + size * x, center.y + size * y); };
+    drawList->AddRect(p(-0.42f, -0.34f), p(0.42f, 0.34f), color, size * 0.06f, 0, thickness);
+    const ImVec2 hills[] = {p(-0.34f, 0.26f), p(-0.10f, -0.02f), p(0.06f, 0.14f), p(0.18f, 0.02f), p(0.34f, 0.26f)};
+    drawList->AddPolyline(hills, 5, color, 0, thickness);
+    drawList->AddCircleFilled(p(0.18f, -0.16f), size * 0.07f, color);
+}
+
+void video(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    // A camera body with a lens cone.
+    const float thickness = size * 0.09f;
+    auto p = [&](float x, float y) { return ImVec2(center.x + size * x, center.y + size * y); };
+    drawList->AddRect(p(-0.42f, -0.26f), p(0.14f, 0.26f), color, size * 0.06f, 0, thickness);
+    const ImVec2 lens[] = {p(0.18f, -0.04f), p(0.42f, -0.20f), p(0.42f, 0.20f), p(0.18f, 0.04f)};
+    drawList->AddPolyline(lens, 4, color, ImDrawFlags_Closed, thickness);
+}
+
+void computer(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    // A monitor on a stand.
+    const float thickness = size * 0.09f;
+    auto p = [&](float x, float y) { return ImVec2(center.x + size * x, center.y + size * y); };
+    drawList->AddRect(p(-0.42f, -0.36f), p(0.42f, 0.18f), color, size * 0.05f, 0, thickness);
+    drawList->AddLine(p(0.0f, 0.18f), p(0.0f, 0.36f), color, thickness);
+    drawList->AddLine(p(-0.22f, 0.38f), p(0.22f, 0.38f), color, thickness);
+}
+
+void network(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    // A globe: outline, one meridian and the equator.
+    const float thickness = size * 0.09f;
+    drawList->AddCircle(center, size * 0.42f, color, 0, thickness);
+    drawList->AddEllipse(center, ImVec2(size * 0.18f, size * 0.42f), color, 0.0f, 0, thickness);
+    drawList->AddLine(ImVec2(center.x - size * 0.42f, center.y), ImVec2(center.x + size * 0.42f, center.y), color,
+                      thickness);
+}
+
 void chromeLogo(ImDrawList* drawList, const ImVec2& center, float size) {
     // Three colored thirds around a white ring and a blue center.
     struct Third {
@@ -277,6 +348,19 @@ void chromeLogo(ImDrawList* drawList, const ImVec2& center, float size) {
 void chrome(ImDrawList* drawList, const ImVec2& min, float size) {
     tile(drawList, min, size, IM_COL32(255, 255, 255, 235));
     chromeLogo(drawList, at(min, size, 0.5f, 0.5f), size * 0.64f);
+}
+
+void fileExplorer(ImDrawList* drawList, const ImVec2& min, float size) {
+    // A yellow folder (back, tab, front) with a blue band, like the Windows icon.
+    tile(drawList, min, size, IM_COL32(255, 255, 255, 235));
+    const ImU32 back = IM_COL32(232, 168, 36, 255);
+    const ImU32 front = IM_COL32(253, 204, 72, 255);
+    const float rounding = size * 0.04f;
+    drawList->AddRectFilled(at(min, size, 0.18f, 0.22f), at(min, size, 0.46f, 0.34f), back, rounding);
+    drawList->AddRectFilled(at(min, size, 0.18f, 0.28f), at(min, size, 0.82f, 0.74f), back, rounding);
+    drawList->AddRectFilled(at(min, size, 0.18f, 0.36f), at(min, size, 0.82f, 0.78f), front, rounding);
+    drawList->AddRectFilled(at(min, size, 0.36f, 0.54f), at(min, size, 0.64f, 0.78f), IM_COL32(32, 120, 212, 255));
+    drawList->AddRectFilled(at(min, size, 0.43f, 0.62f), at(min, size, 0.57f, 0.78f), IM_COL32(130, 196, 248, 255));
 }
 
 void calculator(ImDrawList* drawList, const ImVec2& min, float size) {
