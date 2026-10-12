@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{65D84826-621E-47D1-9347-1589E4E82783}</ProjectGuid>
+    <RootNamespace>MockOS</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <!-- Build with whichever Visual Studio opened the project: 2019 (v142), 2022 (v143) or 2026 (v145). -->
+    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '16.0'">v142</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)' == '18.0'">v145</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup>
+    <!-- GLFW ships one prebuilt library per Visual Studio version; use the matching one. -->
+    <GlfwLibDir>lib-vc2022</GlfwLibDir>
+    <GlfwLibDir Condition="'$(PlatformToolset)' == 'v142'">lib-vc2019</GlfwLibDir>
+    <GlfwLibDir Condition="'$(PlatformToolset)' == 'v145'">lib-vc2026</GlfwLibDir>
+    <OutDir>$(ProjectDir)bin\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)obj\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)external\imgui;$(ProjectDir)external\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <!-- A windowed app with no console window, still entered through main(). -->
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalLibraryDirectories>$(ProjectDir)external\glfw\$(GlfwLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3_mt.lib;opengl32.lib;gdi32.lib;user32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)' == 'Debug'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- Static C runtime, to match glfw3_mt.lib. -->
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <!-- glfw3_mt.lib asks for the release C runtime (libcmt); link the debug one instead. -->
+      <IgnoreSpecificDefaultLibraries>libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)' == 'Release'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- Static C runtime, so the .exe runs on PCs without the Visual C++ redistributable. -->
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\screens\BiosScreen.cpp" />
+    <ClCompile Include="src\screens\LoadingScreen.cpp" />
+    <ClCompile Include="src\screens\Desktop.cpp" />
+    <ClCompile Include="src\screens\TopBar.cpp" />
+    <ClCompile Include="src\screens\Taskbar.cpp" />
+    <ClCompile Include="src\screens\ShutdownScreen.cpp" />
+    <ClCompile Include="src\ui\Theme.cpp" />
+    <ClCompile Include="src\ui\Fonts.cpp" />
+    <ClCompile Include="src\ui\Icons.cpp" />
+    <ClCompile Include="src\ui\Wallpaper.cpp" />
+    <ClCompile Include="src\system\SystemInfo.cpp" />
+    <ClCompile Include="src\apps\App.cpp" />
+    <ClCompile Include="src\apps\AppManager.cpp" />
+    <ClCompile Include="src\apps\Browser.cpp" />
+    <ClCompile Include="src\apps\Calculator.cpp" />
+    <ClCompile Include="src\apps\FileExplorer.cpp" />
+    <ClCompile Include="src\apps\Notepad.cpp" />
+    <ClCompile Include="src\apps\TaskManager.cpp" />
+    <ClCompile Include="external\imgui\imgui.cpp" />
+    <ClCompile Include="external\imgui\imgui_demo.cpp" />
+    <ClCompile Include="external\imgui\imgui_draw.cpp" />
+    <ClCompile Include="external\imgui\imgui_tables.cpp" />
+    <ClCompile Include="external\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="external\imgui\backends\imgui_impl_glfw.cpp" />
+    <ClCompile Include="external\imgui\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="external\imgui\misc\cpp\imgui_stdlib.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\screens\ScreenUtil.h" />
+    <ClInclude Include="src\screens\BiosScreen.h" />
+    <ClInclude Include="src\screens\LoadingScreen.h" />
+    <ClInclude Include="src\screens\Desktop.h" />
+    <ClInclude Include="src\screens\TopBar.h" />
+    <ClInclude Include="src\screens\Taskbar.h" />
+    <ClInclude Include="src\screens\ShutdownScreen.h" />
+    <ClInclude Include="src\ui\Theme.h" />
+    <ClInclude Include="src\ui\Fonts.h" />
+    <ClInclude Include="src\ui\Icons.h" />
+    <ClInclude Include="src\ui\Wallpaper.h" />
+    <ClInclude Include="src\system\SystemInfo.h" />
+    <ClInclude Include="src\apps\App.h" />
+    <ClInclude Include="src\apps\AppManager.h" />
+    <ClInclude Include="src\apps\Browser.h" />
+    <ClInclude Include="src\apps\Calculator.h" />
+    <ClInclude Include="src\apps\FileExplorer.h" />
+    <ClInclude Include="src\apps\Notepad.h" />
+    <ClInclude Include="src\apps\TaskManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MockOS.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="README.txt" />
+    <None Include="assets\fonts\Poppins-Regular.ttf" />
+    <None Include="assets\fonts\Poppins-SemiBold.ttf" />
+    <Text Include="assets\fonts\OFL.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

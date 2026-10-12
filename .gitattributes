@@ -1,0 +1,7 @@
+# Visual Studio expects Windows line endings in its project files.
+*.sln text eol=crlf
+*.vcxproj text eol=crlf
+*.vcxproj.filters text eol=crlf
+
+*.lib binary
+*.ttf binary
