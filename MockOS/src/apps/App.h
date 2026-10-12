@@ -30,6 +30,9 @@ protected:
     // Everything inside the window. Called between ImGui::Begin() and ImGui::End().
     virtual void renderContents() = 0;
 
+    // Extra ImGui window flags, e.g. ImGuiWindowFlags_MenuBar.
+    virtual ImGuiWindowFlags windowFlags() const { return 0; }
+
 private:
     std::string name_;
     std::string processName_;
