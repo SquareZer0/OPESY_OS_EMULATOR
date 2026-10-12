@@ -105,6 +105,7 @@
     <ClCompile Include="src\system\SystemInfo.cpp" />
     <ClCompile Include="src\apps\App.cpp" />
     <ClCompile Include="src\apps\AppManager.cpp" />
+    <ClCompile Include="src\apps\Browser.cpp" />
     <ClCompile Include="src\apps\Calculator.cpp" />
     <ClCompile Include="src\apps\Notepad.cpp" />
     <ClCompile Include="src\apps\TaskManager.cpp" />
@@ -135,6 +136,7 @@
     <ClInclude Include="src\system\SystemInfo.h" />
     <ClInclude Include="src\apps\App.h" />
     <ClInclude Include="src\apps\AppManager.h" />
+    <ClInclude Include="src\apps\Browser.h" />
     <ClInclude Include="src\apps\Calculator.h" />
     <ClInclude Include="src\apps\Notepad.h" />
     <ClInclude Include="src\apps\TaskManager.h" />

@@ -146,6 +146,139 @@ void services(ImDrawList* drawList, const ImVec2& center, float size, ImU32 colo
     drawList->AddCircleFilled(center, size * 0.08f, color);
 }
 
+void arrowLeft(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    const float thickness = size * 0.10f;
+    drawList->AddLine(ImVec2(center.x + size * 0.36f, center.y), ImVec2(center.x - size * 0.32f, center.y), color,
+                      thickness);
+    const ImVec2 head[] = {ImVec2(center.x - size * 0.04f, center.y - size * 0.30f),
+                           ImVec2(center.x - size * 0.34f, center.y),
+                           ImVec2(center.x - size * 0.04f, center.y + size * 0.30f)};
+    drawList->AddPolyline(head, 3, color, 0, thickness);
+}
+
+void arrowRight(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    const float thickness = size * 0.10f;
+    drawList->AddLine(ImVec2(center.x - size * 0.36f, center.y), ImVec2(center.x + size * 0.32f, center.y), color,
+                      thickness);
+    const ImVec2 head[] = {ImVec2(center.x + size * 0.04f, center.y - size * 0.30f),
+                           ImVec2(center.x + size * 0.34f, center.y),
+                           ImVec2(center.x + size * 0.04f, center.y + size * 0.30f)};
+    drawList->AddPolyline(head, 3, color, 0, thickness);
+}
+
+void reload(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    // A clockwise arc with an arrowhead at its top-right end.
+    const float radius = size * 0.32f;
+    const float start = 0.05f * PI;
+    const float end = 1.70f * PI;
+    drawList->PathArcTo(center, radius, start, end);
+    drawList->PathStroke(color, 0, size * 0.10f);
+    const ImVec2 radial(std::cos(end), std::sin(end));
+    const ImVec2 tangent(-radial.y, radial.x);
+    const ImVec2 tip(center.x + radial.x * radius, center.y + radial.y * radius);
+    const ImVec2 arrow[] = {
+        ImVec2(tip.x + tangent.x * size * 0.18f, tip.y + tangent.y * size * 0.18f),
+        ImVec2(tip.x + radial.x * size * 0.15f - tangent.x * size * 0.04f,
+               tip.y + radial.y * size * 0.15f - tangent.y * size * 0.04f),
+        ImVec2(tip.x - radial.x * size * 0.15f - tangent.x * size * 0.04f,
+               tip.y - radial.y * size * 0.15f - tangent.y * size * 0.04f),
+    };
+    drawList->AddConvexPolyFilled(arrow, 3, color);
+}
+
+void home(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    const float thickness = size * 0.09f;
+    auto p = [&](float x, float y) { return ImVec2(center.x + size * x, center.y + size * y); };
+    const ImVec2 roof[] = {p(-0.42f, 0.0f), p(0.0f, -0.40f), p(0.42f, 0.0f)};
+    drawList->AddPolyline(roof, 3, color, 0, thickness);
+    const ImVec2 body[] = {p(-0.28f, -0.13f), p(-0.28f, 0.38f), p(0.28f, 0.38f), p(0.28f, -0.13f)};
+    drawList->AddPolyline(body, 4, color, 0, thickness);
+}
+
+void lock(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    // A shackle over a solid body.
+    drawList->PathLineTo(ImVec2(center.x - size * 0.19f, center.y - size * 0.02f));
+    drawList->PathArcTo(ImVec2(center.x, center.y - size * 0.16f), size * 0.19f, PI, 2.0f * PI);
+    drawList->PathLineTo(ImVec2(center.x + size * 0.19f, center.y - size * 0.02f));
+    drawList->PathStroke(color, 0, size * 0.10f);
+    drawList->AddRectFilled(ImVec2(center.x - size * 0.30f, center.y - size * 0.04f),
+                            ImVec2(center.x + size * 0.30f, center.y + size * 0.40f), color, size * 0.06f);
+}
+
+void star(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    // Ten points alternating between the outer tips and the inner corners.
+    ImVec2 points[10];
+    for (int i = 0; i < 10; ++i) {
+        const float radius = size * ((i % 2 == 0) ? 0.46f : 0.19f);
+        const float angle = UP + i * PI / 5.0f;
+        points[i] = ImVec2(center.x + std::cos(angle) * radius, center.y + std::sin(angle) * radius);
+    }
+    drawList->AddPolyline(points, 10, color, ImDrawFlags_Closed, size * 0.08f);
+}
+
+void profile(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    // A solid circle with a white head and shoulders cut out of it.
+    drawList->AddCircleFilled(center, size * 0.46f, color);
+    drawList->AddCircleFilled(ImVec2(center.x, center.y - size * 0.10f), size * 0.16f, WHITE);
+    const ImVec2 shoulders(center.x, center.y + size * 0.36f);
+    drawList->PathLineTo(shoulders);
+    drawList->PathArcTo(shoulders, size * 0.24f, PI, 2.0f * PI);
+    drawList->PathFillConvex(WHITE);
+}
+
+void moreVertical(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    const float rows[] = {-0.30f, 0.0f, 0.30f};
+    for (float dy : rows) {
+        drawList->AddCircleFilled(ImVec2(center.x, center.y + size * dy), size * 0.08f, color);
+    }
+}
+
+void search(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    // A magnifying glass.
+    const float thickness = size * 0.09f;
+    drawList->AddCircle(ImVec2(center.x - size * 0.08f, center.y - size * 0.08f), size * 0.26f, color, 0, thickness);
+    drawList->AddLine(ImVec2(center.x + size * 0.11f, center.y + size * 0.11f),
+                      ImVec2(center.x + size * 0.40f, center.y + size * 0.40f), color, thickness * 1.2f);
+}
+
+void mic(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    // A rounded capsule in a U-shaped stand.
+    const float thickness = size * 0.08f;
+    drawList->AddRectFilled(ImVec2(center.x - size * 0.12f, center.y - size * 0.42f),
+                            ImVec2(center.x + size * 0.12f, center.y + size * 0.08f), color, size * 0.12f);
+    drawList->PathArcTo(ImVec2(center.x, center.y - size * 0.06f), size * 0.24f, 0.0f, PI);
+    drawList->PathStroke(color, 0, thickness);
+    drawList->AddLine(ImVec2(center.x, center.y + size * 0.18f), ImVec2(center.x, center.y + size * 0.38f), color,
+                      thickness);
+}
+
+void chromeLogo(ImDrawList* drawList, const ImVec2& center, float size) {
+    // Three colored thirds around a white ring and a blue center.
+    struct Third {
+        float from;
+        float to;
+        ImU32 color;
+    };
+    const Third thirds[] = {
+        {-PI * 5.0f / 6.0f, -PI / 6.0f, IM_COL32(219, 68, 55, 255)},  // red, top
+        {-PI / 6.0f, PI * 0.5f, IM_COL32(244, 180, 0, 255)},          // yellow, bottom right
+        {PI * 0.5f, PI * 7.0f / 6.0f, IM_COL32(15, 157, 88, 255)},    // green, bottom left
+    };
+    const float radius = size * 0.5f;
+    for (const Third& third : thirds) {
+        drawList->PathLineTo(center);
+        drawList->PathArcTo(center, radius, third.from, third.to);
+        drawList->PathFillConvex(third.color);
+    }
+    drawList->AddCircleFilled(center, radius * 0.48f, WHITE);
+    drawList->AddCircleFilled(center, radius * 0.38f, IM_COL32(66, 133, 244, 255));
+}
+
+void chrome(ImDrawList* drawList, const ImVec2& min, float size) {
+    tile(drawList, min, size, IM_COL32(255, 255, 255, 235));
+    chromeLogo(drawList, at(min, size, 0.5f, 0.5f), size * 0.64f);
+}
+
 void calculator(ImDrawList* drawList, const ImVec2& min, float size) {
     tile(drawList, min, size, IM_COL32(118, 196, 184, 255));
     // Display along the top, then a 4 x 3 grid of keys.
