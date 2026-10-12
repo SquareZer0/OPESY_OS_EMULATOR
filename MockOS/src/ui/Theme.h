@@ -1,6 +1,7 @@
 #pragma once
 
 #include "imgui.h"
+#include "ui/Icons.h"
 
 // The pe$OS look: flat and pastel, with translucent "frosted glass" panels.
 // Shared colors, sizes and drawing helpers, so every screen and app matches.
@@ -29,5 +30,12 @@ void drawGlassPanel(ImDrawList* drawList, const ImVec2& min, const ImVec2& max, 
 
 // A button in the accent color, for the main action in a dialog.
 bool accentButton(const char* label, const ImVec2& size = ImVec2(0.0f, 0.0f));
+
+// A glass card with a child window inside it. Pair with ImGui::EndChild().
+void beginGlassCard(const char* id, const ImVec2& size);
+
+// One icon-and-label row of a sidebar card. The active row is highlighted;
+// disabled rows are greyed out and can't be clicked. Returns true on click.
+bool sidebarItem(const char* label, icons::LineIconFn icon, bool active, bool enabled = true);
 
 }  // namespace theme

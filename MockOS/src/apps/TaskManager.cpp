@@ -4,7 +4,6 @@
 #include <cctype>
 
 #include "apps/AppManager.h"
-#include "ui/Fonts.h"
 #include "ui/Theme.h"
 
 namespace {
@@ -14,11 +13,6 @@ enum Column { NAME, PID, STATUS, CPU, MEMORY };
 constexpr double DRIFT_SECONDS = 1.0;
 
 constexpr float SIDEBAR_WIDTH = 170.0f;
-constexpr float SIDEBAR_ROW_HEIGHT = 32.0f;
-constexpr float SIDEBAR_ICON_SIZE = 16.0f;
-constexpr float CARD_ROUNDING = 12.0f;
-constexpr float CARD_PADDING = 10.0f;
-constexpr ImU32 ACTIVE_ROW_FILL = IM_COL32(150, 130, 230, 45);
 
 struct SidebarItem {
     const char* label;
@@ -29,15 +23,6 @@ const SidebarItem SIDEBAR[] = {
     {"Processes", icons::processes},      {"Performance", icons::performance}, {"App History", icons::appHistory},
     {"Startup Apps", icons::startupApps}, {"Details", icons::details},         {"Services", icons::services},
 };
-
-// A frosted-glass card with a child window inside it. Pair with ImGui::EndChild().
-void beginCard(const char* id, const ImVec2& size) {
-    const ImVec2 min = ImGui::GetCursorScreenPos();
-    theme::drawGlassPanel(ImGui::GetWindowDrawList(), min, ImVec2(min.x + size.x, min.y + size.y), CARD_ROUNDING);
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(CARD_PADDING, CARD_PADDING));
-    ImGui::BeginChild(id, size, ImGuiChildFlags_AlwaysUseWindowPadding, ImGuiWindowFlags_NoBackground);
-    ImGui::PopStyleVar();
-}
 
 bool lessIgnoreCase(const std::string& a, const std::string& b) {
     return std::lexicographical_compare(a.begin(), a.end(), b.begin(), b.end(), [](unsigned char x, unsigned char y) {
@@ -148,7 +133,7 @@ void TaskManager::renderContents() {
     const float height = ImGui::GetContentRegionAvail().y;
     renderSidebar(height);
     ImGui::SameLine();
-    beginCard("##processesCard", ImVec2(ImGui::GetContentRegionAvail().x, height));
+    theme::beginGlassCard("##processesCard", ImVec2(ImGui::GetContentRegionAvail().x, height));
     renderTable();
     renderFooter();
     ImGui::EndChild();
@@ -156,27 +141,10 @@ void TaskManager::renderContents() {
 
 // Only Processes is built; the other pages are greyed out and can't be opened.
 void TaskManager::renderSidebar(float height) {
-    beginCard("##sidebar", ImVec2(SIDEBAR_WIDTH, height));
+    theme::beginGlassCard("##sidebar", ImVec2(SIDEBAR_WIDTH, height));
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 2.0f));
-    ImDrawList* drawList = ImGui::GetWindowDrawList();
-    const float width = ImGui::GetContentRegionAvail().x;
-    const float fontSize = ImGui::GetFontSize();
-
     for (int i = 0; i < static_cast<int>(sizeof(SIDEBAR) / sizeof(SIDEBAR[0])); ++i) {
-        const bool active = i == 0;
-        const ImVec2 min = ImGui::GetCursorScreenPos();
-        const ImVec2 max(min.x + width, min.y + SIDEBAR_ROW_HEIGHT);
-        ImGui::Dummy(ImVec2(width, SIDEBAR_ROW_HEIGHT));
-
-        if (active) {
-            drawList->AddRectFilled(min, max, ACTIVE_ROW_FILL, ImGui::GetStyle().FrameRounding);
-        }
-        const ImU32 textColor = active ? theme::TEXT : ImGui::GetColorU32(ImGuiCol_TextDisabled);
-        const float centerY = (min.y + max.y) * 0.5f;
-        SIDEBAR[i].icon(drawList, ImVec2(min.x + 18.0f, centerY), SIDEBAR_ICON_SIZE,
-                        active ? theme::ACCENT : textColor);
-        drawList->AddText(active ? fonts::semibold() : ImGui::GetFont(), fontSize,
-                          ImVec2(min.x + 36.0f, centerY - fontSize * 0.5f), textColor, SIDEBAR[i].label);
+        theme::sidebarItem(SIDEBAR[i].label, SIDEBAR[i].icon, i == 0, i == 0);
     }
 
     ImGui::PopStyleVar();

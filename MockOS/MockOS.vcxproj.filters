@@ -27,6 +27,7 @@
     <ClCompile Include="src\main.cpp"><Filter>src</Filter></ClCompile>
     <ClCompile Include="src\Application.cpp"><Filter>src</Filter></ClCompile>
     <ClCompile Include="src\screens\BiosScreen.cpp"><Filter>src\screens</Filter></ClCompile>
+    <ClCompile Include="src\screens\LoadingScreen.cpp"><Filter>src\screens</Filter></ClCompile>
     <ClCompile Include="src\screens\SplashScreen.cpp"><Filter>src\screens</Filter></ClCompile>
     <ClCompile Include="src\screens\Desktop.cpp"><Filter>src\screens</Filter></ClCompile>
     <ClCompile Include="src\screens\TopBar.cpp"><Filter>src\screens</Filter></ClCompile>
@@ -34,7 +35,9 @@
     <ClCompile Include="src\screens\ShutdownScreen.cpp"><Filter>src\screens</Filter></ClCompile>
     <ClCompile Include="src\apps\App.cpp"><Filter>src\apps</Filter></ClCompile>
     <ClCompile Include="src\apps\AppManager.cpp"><Filter>src\apps</Filter></ClCompile>
+    <ClCompile Include="src\apps\Browser.cpp"><Filter>src\apps</Filter></ClCompile>
     <ClCompile Include="src\apps\Calculator.cpp"><Filter>src\apps</Filter></ClCompile>
+    <ClCompile Include="src\apps\FileExplorer.cpp"><Filter>src\apps</Filter></ClCompile>
     <ClCompile Include="src\apps\Notepad.cpp"><Filter>src\apps</Filter></ClCompile>
     <ClCompile Include="src\apps\TaskManager.cpp"><Filter>src\apps</Filter></ClCompile>
     <ClCompile Include="src\ui\Theme.cpp"><Filter>src\ui</Filter></ClCompile>
@@ -56,6 +59,7 @@
     <ClInclude Include="src\resource.h"><Filter>src</Filter></ClInclude>
     <ClInclude Include="src\screens\ScreenUtil.h"><Filter>src\screens</Filter></ClInclude>
     <ClInclude Include="src\screens\BiosScreen.h"><Filter>src\screens</Filter></ClInclude>
+    <ClInclude Include="src\screens\LoadingScreen.h"><Filter>src\screens</Filter></ClInclude>
     <ClInclude Include="src\screens\SplashScreen.h"><Filter>src\screens</Filter></ClInclude>
     <ClInclude Include="src\screens\Desktop.h"><Filter>src\screens</Filter></ClInclude>
     <ClInclude Include="src\screens\TopBar.h"><Filter>src\screens</Filter></ClInclude>
@@ -63,7 +67,9 @@
     <ClInclude Include="src\screens\ShutdownScreen.h"><Filter>src\screens</Filter></ClInclude>
     <ClInclude Include="src\apps\App.h"><Filter>src\apps</Filter></ClInclude>
     <ClInclude Include="src\apps\AppManager.h"><Filter>src\apps</Filter></ClInclude>
+    <ClInclude Include="src\apps\Browser.h"><Filter>src\apps</Filter></ClInclude>
     <ClInclude Include="src\apps\Calculator.h"><Filter>src\apps</Filter></ClInclude>
+    <ClInclude Include="src\apps\FileExplorer.h"><Filter>src\apps</Filter></ClInclude>
     <ClInclude Include="src\apps\Notepad.h"><Filter>src\apps</Filter></ClInclude>
     <ClInclude Include="src\apps\TaskManager.h"><Filter>src\apps</Filter></ClInclude>
     <ClInclude Include="src\ui\Theme.h"><Filter>src\ui</Filter></ClInclude>
@@ -77,7 +83,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="README.txt" />
-    <None Include="PLAN.md" />
     <None Include="assets\fonts\Poppins-Regular.ttf"><Filter>assets</Filter></None>
     <None Include="assets\fonts\Poppins-SemiBold.ttf"><Filter>assets</Filter></None>
     <Text Include="assets\fonts\OFL.txt"><Filter>assets</Filter></Text>

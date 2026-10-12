@@ -1,5 +1,7 @@
 #include "ui/Theme.h"
 
+#include "ui/Fonts.h"
+
 namespace theme {
 
 namespace {
@@ -10,6 +12,13 @@ ImVec4 rgba(int r, int g, int b, int a) {
 
 constexpr int SHADOW_LAYERS = 10;
 constexpr int SHADOW_MAX_ALPHA = 24;
+
+constexpr float CARD_ROUNDING = 12.0f;
+constexpr float CARD_PADDING = 10.0f;
+constexpr float SIDEBAR_ROW_HEIGHT = 32.0f;
+constexpr float SIDEBAR_ICON_SIZE = 16.0f;
+constexpr ImU32 ACTIVE_ROW_FILL = IM_COL32(150, 130, 230, 45);
+constexpr ImU32 HOVERED_ROW_FILL = IM_COL32(255, 255, 255, 140);
 
 }  // namespace
 
@@ -107,6 +116,40 @@ bool accentButton(const char* label, const ImVec2& size) {
     ImGui::PushStyleColor(ImGuiCol_Text, rgba(255, 255, 255, 255));
     const bool clicked = ImGui::Button(label, size);
     ImGui::PopStyleColor(4);
+    return clicked;
+}
+
+void beginGlassCard(const char* id, const ImVec2& size) {
+    const ImVec2 min = ImGui::GetCursorScreenPos();
+    drawGlassPanel(ImGui::GetWindowDrawList(), min, ImVec2(min.x + size.x, min.y + size.y), CARD_ROUNDING);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(CARD_PADDING, CARD_PADDING));
+    ImGui::BeginChild(id, size, ImGuiChildFlags_AlwaysUseWindowPadding, ImGuiWindowFlags_NoBackground);
+    ImGui::PopStyleVar();
+}
+
+bool sidebarItem(const char* label, icons::LineIconFn icon, bool active, bool enabled) {
+    const float width = ImGui::GetContentRegionAvail().x;
+    const ImVec2 min = ImGui::GetCursorScreenPos();
+    const ImVec2 max(min.x + width, min.y + SIDEBAR_ROW_HEIGHT);
+
+    ImGui::PushID(label);
+    ImGui::BeginDisabled(!enabled);
+    const bool clicked = ImGui::InvisibleButton("##row", ImVec2(width, SIDEBAR_ROW_HEIGHT));
+    const bool hovered = ImGui::IsItemHovered();
+    ImGui::EndDisabled();
+    ImGui::PopID();
+
+    ImDrawList* drawList = ImGui::GetWindowDrawList();
+    if (active || hovered) {
+        drawList->AddRectFilled(min, max, active ? ACTIVE_ROW_FILL : HOVERED_ROW_FILL,
+                                ImGui::GetStyle().FrameRounding);
+    }
+    const ImU32 textColor = enabled ? TEXT : ImGui::GetColorU32(ImGuiCol_TextDisabled);
+    const float centerY = (min.y + max.y) * 0.5f;
+    icon(drawList, ImVec2(min.x + 18.0f, centerY), SIDEBAR_ICON_SIZE, active ? ACCENT : textColor);
+    const float fontSize = ImGui::GetFontSize();
+    drawList->AddText(active ? fonts::semibold() : ImGui::GetFont(), fontSize,
+                      ImVec2(min.x + 36.0f, centerY - fontSize * 0.5f), textColor, label);
     return clicked;
 }
 

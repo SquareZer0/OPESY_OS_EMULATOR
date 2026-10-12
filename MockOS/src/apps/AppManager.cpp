@@ -1,11 +1,15 @@
 #include "apps/AppManager.h"
 
+#include "apps/Browser.h"
 #include "apps/Calculator.h"
+#include "apps/FileExplorer.h"
 #include "apps/Notepad.h"
 #include "apps/TaskManager.h"
 
 AppManager::AppManager() {
     // Taskbar buttons appear in this order.
+    apps_.push_back(std::make_unique<Browser>());
+    apps_.push_back(std::make_unique<FileExplorer>());
     apps_.push_back(std::make_unique<Calculator>());
     apps_.push_back(std::make_unique<Notepad>());
     apps_.push_back(std::make_unique<TaskManager>(*this));
