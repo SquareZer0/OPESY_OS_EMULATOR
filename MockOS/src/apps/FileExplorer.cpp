@@ -46,7 +46,8 @@ constexpr int FIRST_LOCATION = 5;  // "This PC" and "Network" sit below a divide
 }  // namespace
 
 FileExplorer::FileExplorer()
-    : App("File Explorer", "explorer.exe", icons::fileExplorer, ImVec2(180.0f, 80.0f), ImVec2(720.0f, 440.0f)) {}
+    : App("File Explorer", "explorer.exe", icons::fileExplorer, ImVec2(180.0f, 80.0f), ImVec2(720.0f, 440.0f),
+          ImVec2(540.0f, 380.0f)) {}
 
 void FileExplorer::renderContents() {
     const float height = ImGui::GetContentRegionAvail().y;

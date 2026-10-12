@@ -85,7 +85,8 @@ void textRightAligned(const std::string& text) {
 }  // namespace
 
 Calculator::Calculator()
-    : App("Calculator", "calc.exe", icons::calculator, ImVec2(80.0f, 60.0f), ImVec2(260.0f, 340.0f)) {}
+    : App("Calculator", "calc.exe", icons::calculator, ImVec2(80.0f, 60.0f), ImVec2(260.0f, 340.0f),
+          ImVec2(240.0f, 330.0f)) {}
 
 void Calculator::renderContents() {
     if (ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows)) {

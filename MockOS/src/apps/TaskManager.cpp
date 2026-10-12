@@ -33,7 +33,8 @@ bool lessIgnoreCase(const std::string& a, const std::string& b) {
 }  // namespace
 
 TaskManager::TaskManager(AppManager& apps)
-    : App("Task Manager", "taskmgr.exe", icons::taskManager, ImVec2(200.0f, 140.0f), ImVec2(720.0f, 420.0f)),
+    : App("Task Manager", "taskmgr.exe", icons::taskManager, ImVec2(200.0f, 140.0f), ImVec2(720.0f, 420.0f),
+          ImVec2(700.0f, 380.0f)),
       apps_(apps),
       rng_(std::random_device{}()) {
     struct Mock {
@@ -156,11 +157,11 @@ void TaskManager::renderTable() {
                                   ImGuiTableFlags_BordersInnerV | ImGuiTableFlags_SizingStretchProp;
     const float footerHeight = ImGui::GetFrameHeightWithSpacing();
     if (ImGui::BeginTable("processes", 5, flags, ImVec2(0.0f, -footerHeight))) {
-        ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_DefaultSort, 3.0f, NAME);
+        ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_DefaultSort, 2.5f, NAME);
         ImGui::TableSetupColumn("PID", 0, 1.0f, PID);
         ImGui::TableSetupColumn("Status", ImGuiTableColumnFlags_NoSort, 1.5f, STATUS);
         ImGui::TableSetupColumn("CPU %", ImGuiTableColumnFlags_PreferSortDescending, 1.0f, CPU);
-        ImGui::TableSetupColumn("Memory (MB)", ImGuiTableColumnFlags_PreferSortDescending, 1.5f, MEMORY);
+        ImGui::TableSetupColumn("Memory (MB)", ImGuiTableColumnFlags_PreferSortDescending, 2.0f, MEMORY);
         ImGui::TableSetupScrollFreeze(0, 1);
         ImGui::TableHeadersRow();
         sortProcesses();

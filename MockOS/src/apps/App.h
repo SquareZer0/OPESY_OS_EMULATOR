@@ -9,7 +9,9 @@
 // draw their contents; App handles the window, its close button, and focus.
 class App {
 public:
-    App(std::string name, std::string processName, icons::AppIconFn icon, ImVec2 defaultPos, ImVec2 defaultSize);
+    // `minSize` is the smallest the window can be resized to without its contents breaking.
+    App(std::string name, std::string processName, icons::AppIconFn icon, ImVec2 defaultPos, ImVec2 defaultSize,
+        ImVec2 minSize);
     virtual ~App() = default;
 
     const std::string& name() const { return name_; }                // window title and taskbar tooltip
@@ -39,6 +41,8 @@ private:
     icons::AppIconFn icon_;
     ImVec2 defaultPos_;
     ImVec2 defaultSize_;
+    ImVec2 minSize_;
+    ImVec2 pos_;  // window position last frame, so resizing can stop at the desktop's edge
     bool open_ = false;
     bool focusRequested_ = false;
 };

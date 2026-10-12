@@ -46,7 +46,9 @@ void toolbarButton(const char* id, const ImVec2& center, icons::LineIconFn icon)
 
 }  // namespace
 
-Browser::Browser() : App("Chrome", "chrome.exe", icons::chrome, ImVec2(230.0f, 60.0f), ImVec2(820.0f, 520.0f)) {}
+Browser::Browser()
+    : App("Chrome", "chrome.exe", icons::chrome, ImVec2(230.0f, 60.0f), ImVec2(820.0f, 520.0f),
+          ImVec2(560.0f, 380.0f)) {}
 
 void Browser::renderContents() {
     const ImVec2 windowPos = ImGui::GetWindowPos();

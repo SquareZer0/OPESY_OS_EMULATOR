@@ -36,7 +36,9 @@ int countCharacters(const std::string& text) {
 
 }  // namespace
 
-Notepad::Notepad() : App("Notepad", "notepad.exe", icons::notepad, ImVec2(140.0f, 100.0f), ImVec2(480.0f, 360.0f)) {}
+Notepad::Notepad()
+    : App("Notepad", "notepad.exe", icons::notepad, ImVec2(140.0f, 100.0f), ImVec2(480.0f, 360.0f),
+          ImVec2(320.0f, 240.0f)) {}
 
 void Notepad::renderContents() {
     // Nothing is really saved, so a reopened Notepad starts empty.
