@@ -29,6 +29,8 @@ private:
     void syncAppProcesses();
     void driftUsage();
     void sortProcesses();
+    void renderSidebar(float height);
+    void renderTable();
     void renderFooter();
     const Process* findProcess(int pid) const;
 
