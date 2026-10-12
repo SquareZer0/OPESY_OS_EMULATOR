@@ -142,7 +142,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="README.txt" />
-    <None Include="PLAN.md" />
     <None Include="assets\fonts\Poppins-Regular.ttf" />
     <None Include="assets\fonts\Poppins-SemiBold.ttf" />
     <Text Include="assets\fonts\OFL.txt" />

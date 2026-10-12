@@ -60,6 +60,33 @@ HOW TO USE
 - Debug builds only: F12 shows the Dear ImGui demo window.
 
 
+APPS
+----
+Calculator
+- Works like the Windows basic calculator: each operation runs when the next
+  one is pressed, so 5 + 3 x 2 = gives 16.
+- C clears everything, CE clears the current number, +/- flips the sign, and
+  % takes a percentage (50 + 10 % = gives 55). Dividing by zero shows "Error";
+  press C, CE or a number to start over.
+- While the Calculator is in front, the keyboard works too: number keys,
+  + - * / % and ., Enter for =, Esc for C, Delete for CE, and Backspace to
+  delete the last digit typed.
+
+Notepad
+- Type in the box; long lines wrap at the edge of the window. The line at the
+  bottom counts words and characters.
+- File > New clears the text. File > Save is a mock: it shows "Saved" but
+  writes nothing, so the text is gone once Notepad is closed.
+
+Task Manager
+- Lists mock system processes plus every open app, with PID, status, CPU and
+  memory. The CPU and memory values are made up and change every second.
+- Click a column header to sort by it; click it again to reverse the order.
+- Select an app's row and press End task to close that app. System processes
+  can't be ended. An app that is opened again gets a new PID.
+- Only the Processes page is built; the other sidebar pages are greyed out.
+
+
 THIRD-PARTY LIBRARIES AND FONTS
 -------------------------------
 - Dear ImGui v1.92.9b (MIT License), in external/imgui

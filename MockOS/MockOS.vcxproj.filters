@@ -77,7 +77,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="README.txt" />
-    <None Include="PLAN.md" />
     <None Include="assets\fonts\Poppins-Regular.ttf"><Filter>assets</Filter></None>
     <None Include="assets\fonts\Poppins-SemiBold.ttf"><Filter>assets</Filter></None>
     <Text Include="assets\fonts\OFL.txt"><Filter>assets</Filter></Text>
