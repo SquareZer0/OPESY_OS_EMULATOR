@@ -93,7 +93,6 @@
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\screens\BiosScreen.cpp" />
     <ClCompile Include="src\screens\LoadingScreen.cpp" />
-    <ClCompile Include="src\screens\SplashScreen.cpp" />
     <ClCompile Include="src\screens\Desktop.cpp" />
     <ClCompile Include="src\screens\TopBar.cpp" />
     <ClCompile Include="src\screens\Taskbar.cpp" />
@@ -125,7 +124,6 @@
     <ClInclude Include="src\screens\ScreenUtil.h" />
     <ClInclude Include="src\screens\BiosScreen.h" />
     <ClInclude Include="src\screens\LoadingScreen.h" />
-    <ClInclude Include="src\screens\SplashScreen.h" />
     <ClInclude Include="src\screens\Desktop.h" />
     <ClInclude Include="src\screens\TopBar.h" />
     <ClInclude Include="src\screens\Taskbar.h" />

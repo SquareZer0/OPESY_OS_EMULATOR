@@ -20,7 +20,7 @@ constexpr double MEMORY_TEST_SECONDS = 1.6;
 constexpr double DRIVE_INTERVAL_SECONDS = 0.35;
 constexpr int DOT_COUNT = 12;
 constexpr double DOTS_SECONDS = 0.8;
-constexpr double HOLD_SECONDS = 0.8;  // pause on "Booting..." before the splash
+constexpr double HOLD_SECONDS = 0.8;  // pause on "Booting..." before the loading screen
 constexpr int MAX_DRIVES_SHOWN = 6;
 
 const ImVec4 TEXT_COLOR(0.75f, 0.75f, 0.75f, 1.0f);

@@ -117,12 +117,6 @@ void Application::renderCurrentScreen() {
     case AppState::Loading:
         loading_.render(elapsed);
         if (loading_.isDone(elapsed)) {
-            switchTo(AppState::Splash);
-        }
-        break;
-    case AppState::Splash:
-        splash_.render(elapsed);
-        if (splash_.isDone(elapsed)) {
             switchTo(AppState::Desktop);
         }
         break;

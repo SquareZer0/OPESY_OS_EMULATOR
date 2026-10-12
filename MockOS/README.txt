@@ -2,10 +2,10 @@ MockOS (pe$OS)
 ==============
 
 A mock desktop operating system, pe$OS, built with GLFW, OpenGL and Dear
-ImGui. It boots through a BIOS screen, a loading screen and a splash screen
-into a pastel, frosted-glass desktop with a top bar, a real-time clock, a
-dock with five apps (Chrome, File Explorer, Calculator, Notepad, Task
-Manager), and a PWR button that shuts the program down.
+ImGui. It boots through a BIOS screen and a loading screen into a pastel,
+frosted-glass desktop with a top bar, a real-time clock, a dock with five
+apps (Chrome, File Explorer, Calculator, Notepad, Task Manager), and a PWR
+button that shuts the program down.
 
 
 GROUP MEMBERS
@@ -46,8 +46,8 @@ for VS" in this folder and run:
 
 HOW TO USE
 ----------
-- The BIOS, loading and splash screens play automatically (about 9.5
-  seconds), then the desktop appears.
+- The BIOS and loading screens play automatically (about 7.5 seconds), then
+  the desktop appears.
 - Top bar: the OS name and the app in front on the left. On the right, Wi-Fi
   and sound icons (mock; clicking the speaker toggles mute), the clock (hover
   for the date), and the power button (PWR).

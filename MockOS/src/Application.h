@@ -4,12 +4,11 @@
 #include "screens/Desktop.h"
 #include "screens/LoadingScreen.h"
 #include "screens/ShutdownScreen.h"
-#include "screens/SplashScreen.h"
 
 struct GLFWwindow;
 
 // The boot-to-shutdown flow, in order. The app only ever moves forward.
-enum class AppState { Bios, Loading, Splash, Desktop, ShuttingDown };
+enum class AppState { Bios, Loading, Desktop, ShuttingDown };
 
 // Owns the GLFW window and the Dear ImGui context, runs the main loop, and
 // switches between screens. The only way out of run() is the PWR button.
@@ -37,7 +36,6 @@ private:
 
     BiosScreen bios_;
     LoadingScreen loading_;
-    SplashScreen splash_;
     Desktop desktop_;
     ShutdownScreen shutdown_;
 };
