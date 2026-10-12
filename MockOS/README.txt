@@ -2,10 +2,10 @@ MockOS (pe$OS)
 ==============
 
 A mock desktop operating system, pe$OS, built with GLFW, OpenGL and Dear
-ImGui. It boots through a BIOS screen and a splash screen into a pastel,
-frosted-glass desktop with a top bar, a real-time clock, a dock with three
-apps (Calculator, Notepad, Task Manager), and a PWR button that shuts the
-program down.
+ImGui. It boots through a BIOS screen, a loading screen and a splash screen
+into a pastel, frosted-glass desktop with a top bar, a real-time clock, a
+dock with five apps (Chrome, File Explorer, Calculator, Notepad, Task
+Manager), and a PWR button that shuts the program down.
 
 
 GROUP MEMBERS
@@ -46,7 +46,8 @@ for VS" in this folder and run:
 
 HOW TO USE
 ----------
-- The BIOS and splash screens play automatically, then the desktop appears.
+- The BIOS, loading and splash screens play automatically (about 9.5
+  seconds), then the desktop appears.
 - Top bar: the OS name and the app in front on the left. On the right, Wi-Fi
   and sound icons (mock; clicking the speaker toggles mute), the clock (hover
   for the date), and the power button (PWR).
@@ -62,6 +63,16 @@ HOW TO USE
 
 APPS
 ----
+Chrome
+- A mock browser showing the Google page. You can type in the "Ask Google"
+  box, but nothing loads: Enter, the address bar and the toolbar buttons do
+  nothing.
+
+File Explorer
+- Click a folder in the sidebar (Downloads, Documents, Music, Pictures,
+  Videos, This PC, Network) to see what's in it. The files are made up and
+  can't be opened.
+
 Calculator
 - Works like the Windows basic calculator: each operation runs when the next
   one is pressed, so 5 + 3 x 2 = gives 16.
