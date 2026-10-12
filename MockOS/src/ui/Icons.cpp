@@ -1,5 +1,7 @@
 #include "ui/Icons.h"
 
+#include <cmath>
+
 namespace icons {
 
 namespace {
@@ -72,6 +74,76 @@ void power(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) 
     drawList->PathStroke(color, 0, thickness);
     drawList->AddLine(ImVec2(center.x, center.y - size * 0.46f), ImVec2(center.x, center.y - size * 0.06f), color,
                       thickness);
+}
+
+void processes(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    // A 2 x 2 grid of app squares.
+    const float thickness = size * 0.10f;
+    const float side = size * 0.34f;
+    const float offsets[] = {-0.40f, 0.06f};
+    for (float dy : offsets) {
+        for (float dx : offsets) {
+            const ImVec2 min(center.x + size * dx, center.y + size * dy);
+            drawList->AddRect(min, ImVec2(min.x + side, min.y + side), color, size * 0.08f, 0, thickness);
+        }
+    }
+}
+
+void performance(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    // A speedometer: the top half of a ring and a needle.
+    const float thickness = size * 0.10f;
+    const ImVec2 hub(center.x, center.y + size * 0.16f);
+    drawList->PathArcTo(hub, size * 0.42f, PI, 2.0f * PI);
+    drawList->PathStroke(color, 0, thickness);
+    drawList->AddLine(hub, ImVec2(hub.x + size * 0.20f, hub.y - size * 0.20f), color, thickness);
+    drawList->AddCircleFilled(hub, size * 0.08f, color);
+}
+
+void appHistory(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    // A clock.
+    const float thickness = size * 0.10f;
+    drawList->AddCircle(center, size * 0.42f, color, 0, thickness);
+    drawList->AddLine(center, ImVec2(center.x, center.y - size * 0.24f), color, thickness);
+    drawList->AddLine(center, ImVec2(center.x + size * 0.18f, center.y), color, thickness);
+}
+
+void startupApps(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    // A rocket: pointed body, two fins, a window and a flame.
+    const float thickness = size * 0.09f;
+    auto p = [&](float x, float y) { return ImVec2(center.x + size * x, center.y + size * y); };
+    const ImVec2 body[] = {p(0.0f, -0.48f), p(0.15f, -0.20f), p(0.15f, 0.20f), p(-0.15f, 0.20f), p(-0.15f, -0.20f)};
+    drawList->AddPolyline(body, 5, color, ImDrawFlags_Closed, thickness);
+    const ImVec2 leftFin[] = {p(-0.15f, 0.00f), p(-0.32f, 0.24f), p(-0.15f, 0.20f)};
+    const ImVec2 rightFin[] = {p(0.15f, 0.00f), p(0.32f, 0.24f), p(0.15f, 0.20f)};
+    drawList->AddPolyline(leftFin, 3, color, 0, thickness);
+    drawList->AddPolyline(rightFin, 3, color, 0, thickness);
+    drawList->AddCircleFilled(p(0.0f, -0.10f), size * 0.06f, color);
+    drawList->AddLine(p(0.0f, 0.30f), p(0.0f, 0.46f), color, thickness);
+}
+
+void details(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    // A bulleted list.
+    const float thickness = size * 0.10f;
+    const float rows[] = {-0.28f, 0.0f, 0.28f};
+    for (float dy : rows) {
+        const float y = center.y + size * dy;
+        drawList->AddCircleFilled(ImVec2(center.x - size * 0.34f, y), size * 0.07f, color);
+        drawList->AddLine(ImVec2(center.x - size * 0.16f, y), ImVec2(center.x + size * 0.42f, y), color, thickness);
+    }
+}
+
+void services(ImDrawList* drawList, const ImVec2& center, float size, ImU32 color) {
+    // A gear: a ring with eight teeth and a hub.
+    const float thickness = size * 0.10f;
+    drawList->AddCircle(center, size * 0.25f, color, 0, thickness);
+    for (int i = 0; i < 8; ++i) {
+        const float angle = i * PI * 0.25f;
+        const ImVec2 dir(std::cos(angle), std::sin(angle));
+        drawList->AddLine(ImVec2(center.x + dir.x * size * 0.29f, center.y + dir.y * size * 0.29f),
+                          ImVec2(center.x + dir.x * size * 0.44f, center.y + dir.y * size * 0.44f), color,
+                          size * 0.15f);
+    }
+    drawList->AddCircleFilled(center, size * 0.08f, color);
 }
 
 void calculator(ImDrawList* drawList, const ImVec2& min, float size) {

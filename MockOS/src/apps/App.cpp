@@ -32,7 +32,7 @@ bool App::render() {
     ImGui::SetNextWindowSize(defaultSize_, ImGuiCond_FirstUseEver);
 
     // Passing &open_ adds the window's X button, which sets open_ to false.
-    const bool visible = ImGui::Begin(name_.c_str(), &open_, ImGuiWindowFlags_NoCollapse);
+    const bool visible = ImGui::Begin(name_.c_str(), &open_, ImGuiWindowFlags_NoCollapse | windowFlags());
     const bool focused = ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows);
 
     // Don't let the title bar slide under the top bar, where it couldn't be grabbed again.
