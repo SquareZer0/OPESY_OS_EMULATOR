@@ -46,7 +46,7 @@ namespace {
     };
     constexpr int MARQUEE_COLOR_COUNT = sizeof(MARQUEE_COLORS) / sizeof(MARQUEE_COLORS[0]);
 
-    const char* const VERSION_DATE = "2026-09-27";
+    const char* const VERSION_DATE = "2026-10-17";
     const char* const GROUP_MEMBERS[] = {
         "Kimberly Moraca Chong",
         "Edlynn Rei Encallado",
