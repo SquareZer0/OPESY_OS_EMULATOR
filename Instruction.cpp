@@ -41,9 +41,9 @@ Instruction randomLeaf(std::mt19937& rng) {
     Instruction instruction;
     const std::uint64_t roll = randomBetween(rng, 0, 99);
     if (roll < 25) {
+        // The spec: unless a test case says otherwise, PRINT's message is
+        // always "Hello world from <process_name>!".
         instruction.op = OpCode::Print;
-        instruction.a.isVariable = randomBetween(rng, 0, 1) == 0;
-        instruction.a.variable = randomVariable(rng);
     } else if (roll < 45) {
         instruction.op = OpCode::Declare;
         instruction.target = randomVariable(rng);

@@ -24,7 +24,8 @@ struct Operand {
 };
 
 // One instruction of a simulated process:
-//   PRINT(msg)            message is "Hello world from <name>!", or a variable's value when a.isVariable
+//   PRINT(msg)            message is "Hello world from <name>!" (generated programs always use this);
+//                         a.isVariable instead prints a variable's value, for a test case that asks for it
 //   DECLARE(var, value)   target = a.value
 //   ADD(var, a, b)        target = a + b, clamped to 0-65535
 //   SUBTRACT(var, a, b)   target = a - b, clamped to 0-65535
