@@ -57,7 +57,7 @@ private:
         std::condition_variable wake;
         std::shared_ptr<Process> process;  // null when idle
         std::uint64_t runTick;             // the tick this core was last told to run
-        std::uint64_t delayLeft;           // busy ticks left from delays-per-exec
+        std::uint64_t delayLeft;           // busy ticks left from delay-per-exec
         std::uint64_t quantumUsed;         // ticks spent on the current process
         StepResult outcome;                // result of the core's last tick
     };

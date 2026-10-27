@@ -80,7 +80,7 @@ bool loadConfig(const std::string& path, Config& config, std::string& error) {
     }
 
     const char* const required[] = {"num-cpu",  "scheduler", "quantum-cycles", "batch-process-freq",
-                                    "min-ins",  "max-ins",   "delays-per-exec"};
+                                    "min-ins",  "max-ins",   "delay-per-exec"};
     for (std::size_t i = 0; i < sizeof required / sizeof required[0]; ++i) {
         if (values.find(required[i]) == values.end()) {
             error = path + " is missing \"" + required[i] + "\".";
@@ -104,7 +104,7 @@ bool loadConfig(const std::string& path, Config& config, std::string& error) {
         {"batch-process-freq", 1, MAX_VALUE, &result.batchProcessFreq},
         {"min-ins", 1, MAX_VALUE, &result.minIns},
         {"max-ins", 1, MAX_VALUE, &result.maxIns},
-        {"delays-per-exec", 0, MAX_VALUE, &result.delaysPerExec},
+        {"delay-per-exec", 0, MAX_VALUE, &result.delayPerExec},
     };
     for (std::size_t i = 0; i < sizeof fields / sizeof fields[0]; ++i) {
         const NumberField& field = fields[i];

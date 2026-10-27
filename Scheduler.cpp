@@ -7,7 +7,7 @@
 
 namespace {
 
-// Real time per CPU tick. batch-process-freq, delays-per-exec, quantum-cycles
+// Real time per CPU tick. batch-process-freq, delay-per-exec, quantum-cycles
 // and SLEEP all count in ticks.
 const std::chrono::milliseconds TICK_LENGTH(10);
 
@@ -174,11 +174,11 @@ void Scheduler::coreLoop(int id) {
         // busy cores report back, so its fields are safe to use unlocked here.
         StepResult outcome = {StepResult::Continue, 0};
         if (core.delayLeft > 0) {
-            --core.delayLeft;  // still busy from delays-per-exec
+            --core.delayLeft;  // still busy from delay-per-exec
         } else {
             outcome = process->executeNext(id);
             if (outcome.kind == StepResult::Continue) {
-                core.delayLeft = config_.delaysPerExec;
+                core.delayLeft = config_.delayPerExec;
             }
         }
         ++core.quantumUsed;

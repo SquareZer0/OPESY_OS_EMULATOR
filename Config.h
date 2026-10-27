@@ -14,7 +14,7 @@ struct Config {
     std::uint64_t batchProcessFreq = 0;    // scheduler-start makes a process every this many ticks
     std::uint64_t minIns = 0;              // instructions per generated process
     std::uint64_t maxIns = 0;
-    std::uint64_t delaysPerExec = 0;       // extra ticks a core stays busy after each instruction
+    std::uint64_t delayPerExec = 0;        // extra ticks a core stays busy after each instruction
 };
 
 // Reads the config file at `path` into `config`. On failure returns false and

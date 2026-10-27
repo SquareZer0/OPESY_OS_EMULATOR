@@ -113,7 +113,7 @@ void printConfig(const Config& config) {
               << "  batch-process-freq  " << config.batchProcessFreq << '\n'
               << "  min-ins             " << config.minIns << '\n'
               << "  max-ins             " << config.maxIns << '\n'
-              << "  delays-per-exec     " << config.delaysPerExec << '\n';
+              << "  delay-per-exec      " << config.delayPerExec << '\n';
 }
 
 void printProcessScreenHeader(const Process& process) {

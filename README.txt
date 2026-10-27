@@ -45,7 +45,7 @@ One "key value" setting per line. All keys are required.
   quantum-cycles      Round robin time slice in CPU ticks, 1 to 2^32
   batch-process-freq  scheduler-start creates one process every this many ticks, 1 to 2^32
   min-ins, max-ins    Instructions per process, 1 to 2^32 (min-ins <= max-ins)
-  delays-per-exec     Extra ticks a core stays busy after each instruction, 0 to 2^32
+  delay-per-exec      Extra ticks a core stays busy after each instruction, 0 to 2^32
 One CPU tick is 10 ms of real time.
 
 Commands
@@ -71,7 +71,7 @@ Notes
 - The CPU cores run from 'initialize' until 'exit'. scheduler-start and scheduler-stop
   only control generating new processes; processes made with screen -s run either way.
 - SLEEP(X) takes the process off its core for X ticks so another process can run.
-  delays-per-exec keeps the core busy (the process stays on it).
+  delay-per-exec keeps the core busy (the process stays on it).
 - Variables are uint16, so results are clamped to 0-65535. Undeclared variables read as 0.
 - A process's instruction count includes every repetition of a FOR loop's body.
   FOR loops nest up to 3 levels deep.
