@@ -128,9 +128,11 @@ void Scheduler::runTick(std::unique_lock<std::mutex>& lock) {
             sleepers_.push_back(sleeper);
             core.process.reset();
         } else if (config_.scheduler == SchedulerType::RR && core.quantumUsed >= config_.quantumCycles) {
-            // Round robin: quantum used up, back of the ready queue.
+            // Round robin: quantum used up, back of the ready queue. Any delay
+            // left is finished on its next turn.
             core.process->state = ProcessState::Ready;
             core.process->core = -1;
+            core.process->delayLeft = core.delayLeft;
             ready_.push_back(core.process);
             core.process.reset();
         }
@@ -152,7 +154,8 @@ void Scheduler::dispatchLocked() {
         ready_.pop_front();
         core.process->state = ProcessState::Running;
         core.process->core = static_cast<int>(i);
-        core.delayLeft = 0;
+        core.delayLeft = core.process->delayLeft;
+        core.process->delayLeft = 0;
         core.quantumUsed = 0;
     }
 }

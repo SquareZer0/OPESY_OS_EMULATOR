@@ -71,7 +71,8 @@ Notes
 - The CPU cores run from 'initialize' until 'exit'. scheduler-start and scheduler-stop
   only control generating new processes; processes made with screen -s run either way.
 - SLEEP(X) takes the process off its core for X ticks so another process can run.
-  delay-per-exec keeps the core busy (the process stays on it).
+  delay-per-exec keeps the core busy (the process stays on it). If round robin
+  takes the process off mid-delay, the rest of the delay happens on its next turn.
 - Variables are uint16, so results are clamped to 0-65535. Undeclared variables read as 0.
 - A process's instruction count includes every repetition of a FOR loop's body.
   FOR loops nest up to 3 levels deep.

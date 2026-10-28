@@ -43,6 +43,7 @@ public:
     // Scheduler bookkeeping, guarded by the scheduler's mutex (not this one).
     ProcessState state = ProcessState::Ready;
     int core = -1;
+    std::uint64_t delayLeft = 0;  // delay-per-exec ticks still owed when RR took it off its core
 
 private:
     // Where execution is inside one instruction list. FOR pushes a frame for
