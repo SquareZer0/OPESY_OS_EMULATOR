@@ -71,6 +71,8 @@ Notes
 - The CPU cores run from 'initialize' until 'exit'. scheduler-start and scheduler-stop
   only control generating new processes; processes made with screen -s run either way.
 - SLEEP(X) takes the process off its core for X ticks so another process can run.
+  Under FCFS it keeps its place in line: when it wakes it goes ahead of processes
+  created after it, taking a core back from one if needed.
   delay-per-exec keeps the core busy (the process stays on it). If round robin
   takes the process off mid-delay, the rest of the delay happens on its next turn.
 - Variables are uint16, so results are clamped to 0-65535. Undeclared variables read as 0.

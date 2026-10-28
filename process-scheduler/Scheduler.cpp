@@ -73,12 +73,11 @@ void Scheduler::clockLoop() {
 void Scheduler::runTick(std::unique_lock<std::mutex>& lock) {
     ++tick_;
 
-    // Processes whose SLEEP is over go to the back of the ready queue.
+    // Processes whose SLEEP is over go back in the ready queue.
     std::vector<Sleeper> stillSleeping;
     for (std::size_t i = 0; i < sleepers_.size(); ++i) {
         if (sleepers_[i].wakeTick <= tick_) {
-            sleepers_[i].process->state = ProcessState::Ready;
-            ready_.push_back(sleepers_[i].process);
+            makeReadyLocked(sleepers_[i].process);
         } else {
             stillSleeping.push_back(sleepers_[i]);
         }
@@ -130,10 +129,8 @@ void Scheduler::runTick(std::unique_lock<std::mutex>& lock) {
         } else if (config_.scheduler == SchedulerType::RR && core.quantumUsed >= config_.quantumCycles) {
             // Round robin: quantum used up, back of the ready queue. Any delay
             // left is finished on its next turn.
-            core.process->state = ProcessState::Ready;
-            core.process->core = -1;
             core.process->delayLeft = core.delayLeft;
-            ready_.push_back(core.process);
+            makeReadyLocked(core.process);
             core.process.reset();
         }
     }
@@ -146,18 +143,54 @@ void Scheduler::runTick(std::unique_lock<std::mutex>& lock) {
 void Scheduler::dispatchLocked() {
     // Hand ready processes to idle cores, in queue order.
     for (std::size_t i = 0; i < cores_.size() && !ready_.empty(); ++i) {
-        Core& core = *cores_[i];
-        if (core.process) {
-            continue;
+        if (!cores_[i]->process) {
+            assignFrontLocked(i);
         }
-        core.process = ready_.front();
-        ready_.pop_front();
-        core.process->state = ProcessState::Running;
-        core.process->core = static_cast<int>(i);
-        core.delayLeft = core.process->delayLeft;
-        core.process->delayLeft = 0;
-        core.quantumUsed = 0;
     }
+
+    // FCFS: a process that woke from SLEEP comes before every process created
+    // after it, so it takes the core of the newest running one.
+    while (config_.scheduler == SchedulerType::FCFS && !ready_.empty()) {
+        std::size_t newest = cores_.size();
+        for (std::size_t i = 0; i < cores_.size(); ++i) {
+            if (cores_[i]->process &&
+                (newest == cores_.size() || cores_[i]->process->id() > cores_[newest]->process->id())) {
+                newest = i;
+            }
+        }
+        if (newest == cores_.size() || cores_[newest]->process->id() < ready_.front()->id()) {
+            break;
+        }
+        Core& core = *cores_[newest];
+        core.process->delayLeft = core.delayLeft;
+        makeReadyLocked(core.process);
+        core.process.reset();
+        assignFrontLocked(newest);
+    }
+}
+
+void Scheduler::assignFrontLocked(std::size_t coreIndex) {
+    Core& core = *cores_[coreIndex];
+    core.process = ready_.front();
+    ready_.pop_front();
+    core.process->state = ProcessState::Running;
+    core.process->core = static_cast<int>(coreIndex);
+    core.delayLeft = core.process->delayLeft;  // left over if it was taken off mid-delay
+    core.process->delayLeft = 0;
+    core.quantumUsed = 0;
+}
+
+void Scheduler::makeReadyLocked(const std::shared_ptr<Process>& process) {
+    process->state = ProcessState::Ready;
+    process->core = -1;
+    // RR: back of the queue. FCFS: the queue stays in creation (ID) order.
+    std::deque<std::shared_ptr<Process>>::iterator it = ready_.end();
+    if (config_.scheduler == SchedulerType::FCFS) {
+        while (it != ready_.begin() && (*(it - 1))->id() > process->id()) {
+            --it;
+        }
+    }
+    ready_.insert(it, process);
 }
 
 void Scheduler::coreLoop(int id) {

@@ -23,7 +23,8 @@
 // core's worker thread run one tick in parallel. Once all of them are done it
 // applies the results: finished processes are recorded, sleeping ones are
 // parked, and under RR a process that has used up its quantum goes to the back
-// of the ready queue.
+// of the ready queue. Under FCFS the ready queue stays in creation order, so a
+// process waking from SLEEP gets its place (and a core) back ahead of newer ones.
 class Scheduler {
 public:
     explicit Scheduler(const Config& config);
@@ -74,6 +75,8 @@ private:
     std::vector<Instruction> randomProgram();
     // These expect mtx_ to be held.
     void dispatchLocked();
+    void assignFrontLocked(std::size_t coreIndex);  // gives the front of the ready queue to an idle core
+    void makeReadyLocked(const std::shared_ptr<Process>& process);
     std::shared_ptr<Process> addProcessLocked(const std::string& name, std::vector<Instruction> program);
     std::string nextAutoNameLocked();
 
